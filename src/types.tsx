@@ -1,8 +1,5 @@
 
 
-export interface toDoListsType {
-	[key: string]: ToDoListType
-}
 
 export interface ToDoListType {
 	id: string

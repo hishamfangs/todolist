@@ -1,12 +1,6 @@
 import type { AppStore } from "../store"
 import { makeStore } from "../store"
-import {
-  addList,
-  getList,
-  selectLists,
-  toDoSlice,
-  type ToDoSliceState,
-} from "./toDoSlice"
+import { addList, getList, selectLists, toDoSlice, type ToDoSliceState } from "./toDoSlice"
 import { ToDoListType } from "../../types"
 
 interface LocalTestContext {
@@ -69,6 +63,6 @@ describe<LocalTestContext>("To Do List Reducer", it => {
         listItems: [],
       }),
     )
-    expect(getList(store.getState())).toBe(getList.length>0)
+    expect(getList(store.getState())).toBe(getList.length > 0)
   })
 })
