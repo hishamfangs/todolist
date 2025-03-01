@@ -1,14 +1,42 @@
-import "./App.css"
-import { ToDoLists } from "./components/ToDoLists"
-//import { Breadcrumbs } from "./Breadcrumbs"
 
+import { ToDoLists } from "./components/ToDoLists"
+import Breadcrumbs from "./components/Breadcrumbs"
+import { createBrowserRouter, matchPath, RouterProvider, useMatch } from "react-router-dom"
+import { Login } from "./components/Login"
+import { ToDoList } from "./components/ToDoList"
+import ToDoListPage from "./pages/ToDoListPage"
+import LoggedIn from "./pages/LoggedIn"
 
 const App = () => {
+
+	// Setup React Router
+	const routes = createBrowserRouter([
+		{
+			path: '/', 
+			element: <Login />
+		},{
+			path: '/todolists', 
+			element: <LoggedIn />,
+			children: [
+				{
+					path: '', 
+					element: <ToDoLists />,
+				},
+				{
+					path: 'todolist/:id', 
+					element: <ToDoListPage />
+				}]
+		},{
+			
+		}
+	])
+
   return (
     <div className="App">
-			{/*<Breadcrunmbs />*/}
-      <ToDoLists />
-    </div>
+			<div id="container">
+				<RouterProvider router={routes}/>
+			</div>
+		</div>
   )
 }
 

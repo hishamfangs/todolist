@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 /****************/
+
 /* Theme Colors */
 
 :root {
@@ -6,4 +9,289 @@
   --secondary: black;
   --light-grey: #f3f3f3;
   --mid-grey: #b0b0b0;
+  --input-grey: #e3e3e3;
+}
+
+html > body {
+  font-family: 'Quicksand', sans-serif;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  height: 40px;
+}
+
+button {
+  border-radius: 8px;
+  height: 40px;
+  background: black;
+  color: white;
+  border: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.App {
+  background-color: var(--light-grey);
+  color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
+  background-size: cover;
+}
+
+#container {
+  display: flex;
+  /* height: 100vh; */
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.card {
+  display: flex;
+  max-width: 900px;
+  width: 900px;
+  background: white;
+  border-radius: 16px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.07);
+}
+
+/**** Login Screen ********/
+
+#login {
+  max-width: 400px;
+  width: 400px;
+  padding: 60px;
+}
+
+#login .title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#login h1 {
+  margin-top: 0px;
+  color: var(--primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+.submit {
+  margin-top: 20px;
+}
+
+.submit button {
+  width: 100%;
+}
+
+/**** TO Do Lists ********/
+
+.todo-lists {
+  max-width: 900px;
+  width: 900px;
+}
+
+/**** TO Do List ********/
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  align-content: space-between;
+  align-items: center;
+}
+
+.todo-list .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 15px 15px 30px;
+  border-radius: 16px;
+  background: var(--light-grey);
+  border-left: 5px solid grey;
+  min-height: 70px;
+}
+
+/***** List Items *********/
+
+.list-items {
+  height: 0px;
+  overflow: clip;
+}
+
+.todo-list .title .text {
+  font-size: 1.4rem;
+}
+
+.todo-list .title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.todo-list .description {
+  font-size: 0.7em;
+  margin: 3px 0;
+  color: var(--mid-grey);
+  /* flex: 1 1 auto; */
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+.date {
+  background: white;
+  border-radius: 16px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.day {
+  font-weight: 700;
+  line-height: 0.9em;
+  font-size: 1.7rem;
+}
+
+.month {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: var(--mid-grey);
+}
+
+/**** ADD List ****/
+
+.listButton .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 16px;
+  background: var(--light-grey);
+  border-left: 5px solid var(--mid-grey);
+  margin-bottom: 20px;
+  min-height: 100px;
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+}
+
+.add.listButton .container {
+  background: var(--secondary);
+  border-left: 5px solid var(--secondary);
+  justify-content: flex-start;
+}
+
+.add:hover .container {
+  background: #474747;
+  border-left: 5px solid #474747;
+  cursor: pointer;
+}
+
+.plus-sign {
+  font-size: 4rem;
+  color: var(--primary);
+  line-height: 4rem;
+  font-weight: 450;
+  padding: 0 20px;
+}
+
+.add-text {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.breadcrumb {
+  cursor: pointer;
+  height: 100px;
+  width: auto;
+  /* background: url(/public/assets/account.png); */
+  flex: 1 0 auto;
+}
+
+.breadcrumb.profile {
+  background: url(/public/assets/account.png);
+  background-size: contain;
+  width: 80px;
+  background-repeat: no-repeat;
+}
+
+.breadcrumb.logout {
+  background: url(/public/assets/logout.png);
+  background-size: contain;
+  /* background: url(/public/assets/account.png); */
+  background-size: contain;
+  width: 80px;
+  background-repeat: no-repeat;
+}
+
+.breadcrumb_icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* width: 100%; */
+}
+
+.breadcrumbs {
+  max-width: 900px;
+  width: 900px;
+}
+
+.breadcrumbs > .container {
+  display: flex;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+#login .submit button {
+}
+/***** Media Queries *****/
+
+@media (max-width: 1024px) {
+  .todo-lists {
+    max-width: 80%;
+    width: 80%;
+  }
 }

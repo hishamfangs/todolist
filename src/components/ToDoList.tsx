@@ -1,10 +1,11 @@
 import { Suspense, useState } from "react"
 //import { ToDoList } from "./ToDoList"
-import type { ToDoListType } from "../types"
+import type { ToDoListItemType, ToDoListType } from "../types"
 
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
-  getLists, getList, selectLists, selectListsStatus
+  getLists, getList, selectLists, selectListsStatus,
+	toDoSlice
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import { ToDoListItem } from "./ToDoListItem"
@@ -18,18 +19,13 @@ export const ToDoList = (params: any) => {
   //const [toDoLists, setToDoLists] = useState();
 	const [toDoList] = useState(params.toDoList);
   return (
-    <div>
-      <div className="todo-list">
-				<div className="container">
-					<div className="title">
-						<div className="text">Grocery List</div>
-						<div className="description">Description</div>
-					</div>
-					<div className="date"><span>19</span><span>Sep</span></div>
+		<div className="todo-list listButton">
+			<div className="container">
+				<div className="title">
+					<div className="text">Grocery List</div>
+					<div className="description">Description</div>
 				</div>
-				<div className="list-items">
-					<ToDoListItem toDoList={toDoList} />
-				</div>
+				<div className="date"><span className="day">19</span><span className="month">Sep</span></div>
 			</div>
 		</div>
   )

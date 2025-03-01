@@ -6,25 +6,24 @@ test("App should have correct initial render", () => {
   renderWithProviders(<App />)
 
   // The app should be rendered correctly
-  expect(screen.getByText(/learn/i)).toBeInTheDocument()
+  expect(screen.getByText(/TO DO LIST/i)).toBeInTheDocument()
 
   // Initial state: count should be 0, incrementValue should be 2
-  expect(screen.getByLabelText("Count")).toHaveTextContent("0")
-  expect(screen.getByLabelText("Set increment amount")).toHaveValue(2)
+  //expect(screen.getByLabelText("Add a new list...")).toHaveTextContent("")
 })
 
-test("Increment value and Decrement value should work as expected", async () => {
+test("There should be a working add new button", async () => {
   const { user } = renderWithProviders(<App />)
 
   // Click on "+" => Count should be 1
-  await user.click(screen.getByLabelText("Increment value"))
+  await user.click(screen.getByLabelText("Add a new list..."))
   expect(screen.getByLabelText("Count")).toHaveTextContent("1")
-
+/* 
   // Click on "-" => Count should be 0
   await user.click(screen.getByLabelText("Decrement value"))
-  expect(screen.getByLabelText("Count")).toHaveTextContent("0")
+  expect(screen.getByLabelText("Count")).toHaveTextContent("0") */
 })
-
+/* 
 test("Add Amount should work as expected", async () => {
   const { user } = renderWithProviders(<App />)
 
@@ -103,3 +102,4 @@ test("Add If Odd should work as expected", async () => {
   await user.click(screen.getByText("Add If Odd"))
   expect(screen.getByLabelText("Count")).toHaveTextContent("4")
 })
+ */
