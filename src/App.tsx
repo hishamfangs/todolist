@@ -6,8 +6,11 @@ import { Login } from "./components/Login"
 import { ToDoList } from "./components/ToDoList"
 import ToDoListPage from "./pages/ToDoListPage"
 import LoggedIn from "./pages/LoggedIn"
+import { useEffect, useState } from "react"
+import { useLocalStorage } from "@uidotdev/usehooks"
 
 const App = () => {
+	const [theme, setTheme] = useLocalStorage("theme","light");
 
 	// Setup React Router
 	const routes = createBrowserRouter([
@@ -32,7 +35,7 @@ const App = () => {
 	])
 
   return (
-    <div className="App">
+    <div className={"App " + theme + "theme"}>
 			<div id="container">
 				<RouterProvider router={routes}/>
 			</div>

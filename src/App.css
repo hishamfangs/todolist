@@ -28,6 +28,7 @@ select {
   border: 1px solid #e3e3e3;
   border-radius: 8px;
   height: 40px;
+  padding: 10px;
 }
 
 button {
@@ -41,7 +42,6 @@ button {
 }
 
 .App {
-  background-color: var(--light-grey);
   color: var(--secondary);
   display: flex;
   flex-direction: column;
@@ -49,6 +49,7 @@ button {
   height: 100vh;
   background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
   background-size: cover;
+  background-color: var(--light-grey);
 }
 
 #container {
@@ -287,6 +288,7 @@ button {
 
 #login .submit button {
 }
+
 /***** Media Queries *****/
 
 @media (max-width: 1024px) {
@@ -294,4 +296,88 @@ button {
     max-width: 80%;
     width: 80%;
   }
+}
+
+.theme-switcher {
+  background: #f7f9fb;
+  border: 1px solid var(--light-grey);
+  padding: 5px;
+  border-radius: 60px;
+  width: auto;
+  height: auto;
+  align-self: flex-start;
+}
+
+.theme-switcher button {
+  border-radius: 42px;
+  font-size: 0.7rem;
+  /* box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.1); */
+  /* border: 1px solid var(--input-grey); */
+  width: 52px;
+  height: 26px;
+  background: white;
+  color: var(--secondary);
+  cursor: pointer;
+  position: relative;
+}
+
+.theme-switcher button:first-child {
+  background: white;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  transition:
+    0.3s margin-left,
+    0.3s background;
+  transition-timing-function: cubic-bezier(0.68, -0.23, 0.26, 1.15), cubic-bezier(0.75, -0.59, 0.22, 1.61);
+}
+
+.dark button {
+  background: none;
+  color: black;
+}
+
+.theme-switcher button:first-child {
+  margin-left: 52px;
+  position: absolute;
+}
+
+.theme-switcher.dark button:first-child {
+  background: black;
+  color: white !important;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  margin-left: 0px;
+}
+
+.theme-switcher button:nth-child(2) {
+  border-radius: 42px;
+  font-size: 0.7rem;
+  /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); */
+  /* border: 1px solid var(--input-grey); */
+  width: 52px;
+  height: 26px;
+  background: none;
+  color: var(--secondary);
+  box-shadow: none;
+}
+
+.theme-switcher.dark button:nth-child(2) {
+  background: none;
+  box-shadow: none;
+  color: white;
+  background: none;
+  /* box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.theme-switcher {
+  cursor: pointer;
+}
+
+.theme-switcher button:last-child {
+  background: none;
+}
+
+.App.darktheme {
+  background-color: rgb(61, 61, 61);
+  color: white;
+  transition: 0.3s background-color;
 }
