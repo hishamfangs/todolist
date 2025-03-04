@@ -65,6 +65,6 @@ describe<LocalTestContext>('To Do List Reducer', it => {
       }),
     )
     //await store.dispatch(getLists())
-    expect(selectLists(store.getState())[0]).toHaveProperty('namqweqweqwee')
+    expect(selectLists(store.getState())[0]).toHaveProperty('namqweqweasdasdqwee')
   })
 })
