@@ -17,4 +17,10 @@ export interface ToDoListItemType {
 	listId?: string
 }
 
+export interface BreadcrumbNavigationStateType {
+	activeListId?: string,
+	activeListItemId?: string,
+	backButton?: boolean
+}
+
 export type StoreStatus = 'idle' | 'loading' | 'fulfilled' | 'failed'

@@ -1,8 +1,7 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAppSlice } from '../../app/createAppSlice'
-import type { AppThunk } from '../store'
 import { deleteList, deleteListItem, fetchList, fetchLists, putList, putListItem, postList, postListItem } from './toDoAPI'
 import type { StoreStatus, ToDoListItemType, ToDoListType } from '../../types'
+import { removeListItemFromArray } from '../../utils/list'
 
 export interface ToDoSliceState {
   toDoLists: Array<ToDoListType>
@@ -222,8 +221,8 @@ export const toDoSlice = createAppSlice({
       },
     ),
     removeListItem: create.asyncThunk(
-      async (listId: string) => {
-        const response: boolean = await deleteListItem(listId)
+      async ({ listId, itemId }: { listId: string; itemId: string }) => {
+        const response: boolean = await deleteListItem(listId, itemId)
         // The value we return becomes the `fulfilled` action payload
         return response
       },
@@ -233,7 +232,7 @@ export const toDoSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.removeListItemStatus = 'fulfilled'
-          //state.value = action.payload
+          state.toDoLists = removeListItemFromArray(state.toDoLists, action.meta.arg.listId, action.meta.arg.itemId)
         },
         rejected: state => {
           state.removeListItemStatus = 'failed'

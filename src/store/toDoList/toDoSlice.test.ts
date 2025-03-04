@@ -1,68 +1,70 @@
-import type { AppStore } from "../store"
-import { makeStore } from "../store"
-import { addList, getList, selectLists, toDoSlice, type ToDoSliceState } from "./toDoSlice"
-import { ToDoListType } from "../../types"
+import type { AppStore } from '../store'
+import { makeStore } from '../store'
+import { addList, getList, getLists, selectList, selectLists, toDoSlice, type ToDoSliceState } from './toDoSlice'
 
 interface LocalTestContext {
   store: AppStore
 }
 
-describe<LocalTestContext>("To Do List Reducer", it => {
+describe<LocalTestContext>('To Do List Reducer', it => {
   beforeEach<LocalTestContext>(context => {
     const initialState: ToDoSliceState = {
-      value: {
-        "Sample ToDo": {
-          id: "1",
-          name: "Sample ToDo",
-          description: "This is a sample ToDo list",
-          lastUpdated: new Date(),
-          listItems: [],
-        },
-      },
-      getListsStatus: "idle",
-      getListItemsStatus: "idle",
-      addListStatus: "idle",
-      addListItemStatus: "idle",
-      updateListStatus: "idle",
-      updateListItemStatus: "idle",
-      removeListStatus: "idle",
-      removeListItemStatus: "idle",
+      toDoLists: [],
+      getListsStatus: 'idle',
+      getListStatus: 'idle',
+      getListItemsStatus: 'idle',
+      addListStatus: 'idle',
+      addListItemStatus: 'idle',
+      updateListStatus: 'idle',
+      updateListItemStatus: 'idle',
+      removeListStatus: 'idle',
+      removeListItemStatus: 'idle',
     }
 
-    const store = makeStore({ counter: initialState })
+    const store = makeStore({ todoList: initialState })
 
     context.store = store
   })
 
-  it("should handle initial state", () => {
-    expect(toDoSlice.reducer(undefined, { type: "unknown" })).toStrictEqual({
-      value: 0,
-      status: "idle",
+  it('should handle initial state', () => {
+    expect(toDoSlice.reducer(undefined, { type: 'unknown' })).toStrictEqual({
+      toDoLists: [],
+      getListsStatus: 'idle',
+      getListStatus: 'idle',
+      getListItemsStatus: 'idle',
+      addListStatus: 'idle',
+      addListItemStatus: 'idle',
+      updateListStatus: 'idle',
+      updateListItemStatus: 'idle',
+      removeListStatus: 'idle',
+      removeListItemStatus: 'idle',
     })
   })
 
-  it("should handle fetching lists", ({ store }) => {
-    expect(selectLists(store.getState())).toBe({
-      "list 1": {
-        id: "1",
-        name: "list 1",
-        description: "This is list 1",
-        lastUpdated: new Date(),
-        listItems: [],
-      },
-    })
-  })
-
-  it("should handle adding lists", ({ store }) => {
+  it('should handle adding lists', ({ store }) => {
     store.dispatch(
       addList({
-        id: "2",
-        name: "New ToDo",
-        description: "This is a new ToDo list",
-        lastUpdated: new Date(),
+        id: '2',
+        name: 'New ToDo',
+        description: 'This is a new ToDo list',
+        lastUpdated: new Date().toString(),
         listItems: [],
       }),
     )
-    expect(getList(store.getState())).toBe(getList.length > 0)
+    expect(selectList(store.getState(), '2')).toBe(store.getState().todoList.toDoLists[0])
+  })
+
+  it('should handle fetching lists', async ({ store }) => {
+    await store.dispatch(
+      addList({
+        id: '2',
+        name: 'New ToDo',
+        description: 'This is a new ToDo list',
+        lastUpdated: new Date().toString(),
+        listItems: [],
+      }),
+    )
+    //await store.dispatch(getLists())
+    expect(selectLists(store.getState())[0]).toHaveProperty('name')
   })
 })

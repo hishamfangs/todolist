@@ -1,2 +1,1 @@
-export const serverUrl = "https://urlfornow"
-
+export const apiURL = 'https://urlfornow'

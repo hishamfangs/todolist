@@ -1,52 +1,43 @@
-import type { AppStore } from "../store"
-import { makeStore } from "../store"
-import type { ToDoSliceState } from "./userManagementSlice"
-import {} from "./userManagementSlice"
+import type { AppStore } from '../store'
+import { makeStore } from '../store'
+import type { UserManagementSliceState } from './userManagementSlice'
+import { login, userManagement } from './userManagementSlice'
+import {} from './userManagementSlice'
 
 interface LocalTestContext {
   store: AppStore
 }
 
-describe<LocalTestContext>("counter reducer", it => {
+describe<LocalTestContext>('Setup User Management Store', it => {
   beforeEach<LocalTestContext>(context => {
-    const initialState: CounterSliceState = {
-      value: 3,
-      status: "idle",
+    const initialState: UserManagementSliceState = {
+      token: '',
+      username: '',
+      password: '',
+      breadcrumbNavigationState: {
+        /* initialize with appropriate properties */
+      },
+      status: 'idle',
     }
 
-    const store = makeStore({ counter: initialState })
+    const store = makeStore({ userManagement: initialState })
 
     context.store = store
   })
 
-  it("should handle initial state", () => {
-    expect(counterSlice.reducer(undefined, { type: "unknown" })).toStrictEqual({
-      value: 0,
-      status: "idle",
+  it('should handle initial state', () => {
+    expect(userManagement.reducer(undefined, { type: 'unknown' })).toStrictEqual({
+      token: '',
+      username: '',
+      password: '',
+      breadcrumbNavigationState: {
+        /* initialize with appropriate properties */
+      },
+      status: 'idle',
     })
   })
 
-  it("should handle increment", ({ store }) => {
-    expect(selectCount(store.getState())).toBe(3)
-
-    store.dispatch(increment())
-
-    expect(selectCount(store.getState())).toBe(4)
-  })
-
-  it("should handle decrement", ({ store }) => {
-    expect(selectCount(store.getState())).toBe(3)
-
-    store.dispatch(decrement())
-
-    expect(selectCount(store.getState())).toBe(2)
-  })
-
-  it("should handle incrementByAmount", ({ store }) => {
-    expect(selectCount(store.getState())).toBe(3)
-
-    store.dispatch(incrementByAmount(2))
-
-    expect(selectCount(store.getState())).toBe(5)
+  it('should handle User Login', ({ store }) => {
+    expect(login({ username: 'test', password: '1234' }).length).toBeGreaterThan(1)
   })
 })

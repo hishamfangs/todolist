@@ -1,7 +1,7 @@
 
 import { ToDoLists } from "./components/ToDoLists"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { Login } from "./components/Login"
+import { Login } from "./pages/Login"
 import ToDoListPage from "./pages/ToDoListPage"
 import LoggedIn from "./pages/LoggedIn"
 import { useLocalStorage } from "@uidotdev/usehooks"

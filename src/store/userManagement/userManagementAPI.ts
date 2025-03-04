@@ -1,15 +1,12 @@
-import { serverUrl } from "../../utils/global"
+import { apiURL } from '../../utils/global'
 
 // Login
-export async function fetchLogin(
-  username: string,
-  password: string,
-): Promise<string> {
-  const response = await fetch(`${serverUrl}/login`, {
-    method: "POST",
+export async function fetchLogin(username: string, password: string): Promise<string> {
+  const response = await fetch(`${apiURL}/login`, {
+    method: 'POST',
     body: JSON.stringify({ username, password }),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
   return response.json()
@@ -17,11 +14,11 @@ export async function fetchLogin(
 
 // LogOut
 export async function fetchLogout(username: string): Promise<string> {
-  const response = await fetch(`${serverUrl}/logout`, {
-    method: "POST",
+  const response = await fetch(`${apiURL}/logout`, {
+    method: 'POST',
     body: JSON.stringify({ username }),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
   return response.json()

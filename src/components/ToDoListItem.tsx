@@ -8,11 +8,11 @@ import {
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store" */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ToDoListItemType } from "../types"
 import { useParams } from "react-router";
 
-export const ToDoListItem = (params: any) => {
+export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeItem: Function}) => {
   //const dispatch: AppDispatch = useAppDispatch()
   /* const toDoLists: ToDoListsType[] = useAppSelector(selectLists)
   const status = useAppSelector(selectListsStatus); */
@@ -23,14 +23,22 @@ export const ToDoListItem = (params: any) => {
 
 	const [toDoListItem, setToDoListItem] = useState(params.toDoListItem);
 
+	useEffect(()=>{
+		setToDoListItem(params.toDoListItem);
+	}, [params.toDoListItem])
+
+	function onRemove(){
+		params.removeItem(params.toDoListItem.id)
+	}
+
   return (
-    <div>TESTSTST
-      <div className="todo-item">
-				<div className="container">
-					<div className="checkbox">{toDoListItem.completed}</div>
+		<div className="list-item">
+			<div className="container">
+				<div className="info-container">
+					<div className="checkbox">{toDoListItem.completed}<input type="checkbox" /></div>
 					<div className="text">{toDoListItem.name}</div>
-					<div className="close"><span>X</span></div>
 				</div>
+				<div className="close" onClick={onRemove}><span>X</span></div>
 			</div>
 		</div>
   )

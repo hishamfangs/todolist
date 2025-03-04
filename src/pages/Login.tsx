@@ -1,7 +1,7 @@
 import { Suspense, useState } from "react"
 //import { ToDoList } from "./ToDoList"
 import type { ToDoListType } from "../types"
-import ThemeSwitcher from "./ThemeSwitcher"
+import ThemeSwitcher from "../components/ThemeSwitcher"
 import { NavLink, useNavigate } from "react-router"
 
 /* 

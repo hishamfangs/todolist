@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useRef, useState } from "react"
 //import { ToDoList } from "./ToDoList"
 import type { ToDoListType } from "../types"
-import { ToDoList } from "./ToDoList"
+import { ToDoListButton } from "./ToDoListButton";
 
 export const ToDoLists = (params: { toDoLists: ToDoListType[]; addNewList: Function; addStatus: string }) => {
 	// Get the toDoLists from the parameters
@@ -60,7 +60,7 @@ export const ToDoLists = (params: { toDoLists: ToDoListType[]; addNewList: Funct
 			<Suspense fallback={<div>Loading...</div>}>
 				{
 					toDoLists.map((toDoList: ToDoListType) => (
-						<ToDoList key={toDoList.id} toDoList={toDoList} />
+						<ToDoListButton key={toDoList.id} toDoList={toDoList} />
 					))
 				}
 			</Suspense>
