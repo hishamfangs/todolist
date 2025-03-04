@@ -1,16 +1,17 @@
 
 import { ToDoLists } from "./components/ToDoLists"
-import Breadcrumbs from "./components/Breadcrumbs"
-import { createBrowserRouter, matchPath, RouterProvider, useMatch } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Login } from "./components/Login"
-import { ToDoList } from "./components/ToDoList"
 import ToDoListPage from "./pages/ToDoListPage"
 import LoggedIn from "./pages/LoggedIn"
-import { useEffect, useState } from "react"
 import { useLocalStorage } from "@uidotdev/usehooks"
+import { Provider } from "react-redux"
+import { store } from "./store/store"
+import { ToDoListsPage } from "./pages/ToDoListsPage"
 
 const App = () => {
-	const [theme, setTheme] = useLocalStorage("theme","light");
+	// Initialize the theme from local storage
+	const [theme] = useLocalStorage("theme","light");
 
 	// Setup React Router
 	const routes = createBrowserRouter([
@@ -23,7 +24,7 @@ const App = () => {
 			children: [
 				{
 					path: '', 
-					element: <ToDoLists />,
+					element: <ToDoListsPage />,
 				},
 				{
 					path: 'todolist/:id', 
@@ -33,12 +34,15 @@ const App = () => {
 			
 		}
 	])
-
+	console.log('App.tsx');
   return (
     <div className={"App " + theme + "theme"}>
-			<div id="container">
-				<RouterProvider router={routes}/>
-			</div>
+			{/* ^ Use the 'theme' var to add a class named dark to the App Container if on dark mode */}
+			<Provider store={store}>
+				<div id="container">
+					<RouterProvider router={routes}/>
+				</div>
+			</Provider>			
 		</div>
   )
 }

@@ -2,23 +2,25 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAppSlice } from '../../app/createAppSlice'
 import type { AppThunk } from '../store'
 import { deleteList, deleteListItem, fetchList, fetchLists, putList, putListItem, postList, postListItem } from './toDoAPI'
-import type { ToDoListItemType, ToDoListType } from '../../types'
+import type { StoreStatus, ToDoListItemType, ToDoListType } from '../../types'
 
 export interface ToDoSliceState {
   toDoLists: Array<ToDoListType>
-  getListsStatus: 'idle' | 'loading' | 'failed'
-  getListItemsStatus: 'idle' | 'loading' | 'failed'
-  addListStatus: 'idle' | 'loading' | 'failed'
-  addListItemStatus: 'idle' | 'loading' | 'failed'
-  updateListStatus: 'idle' | 'loading' | 'failed'
-  updateListItemStatus: 'idle' | 'loading' | 'failed'
-  removeListStatus: 'idle' | 'loading' | 'failed'
-  removeListItemStatus: 'idle' | 'loading' | 'failed'
+  getListsStatus: StoreStatus
+  getListStatus: StoreStatus
+  getListItemsStatus: StoreStatus
+  addListStatus: StoreStatus
+  addListItemStatus: StoreStatus
+  updateListStatus: StoreStatus
+  updateListItemStatus: StoreStatus
+  removeListStatus: StoreStatus
+  removeListItemStatus: StoreStatus
 }
 
 const initialState: ToDoSliceState = {
   toDoLists: [],
   getListsStatus: 'idle',
+  getListStatus: 'idle',
   getListItemsStatus: 'idle',
   addListStatus: 'idle',
   addListItemStatus: 'idle',
@@ -61,6 +63,7 @@ export const toDoSlice = createAppSlice({
       async (filter?: string) => {
         const response = await fetchLists(filter)
         // The value we return becomes the `fulfilled` action payload
+        console.log('Response', response)
         return response
       },
       {
@@ -68,7 +71,7 @@ export const toDoSlice = createAppSlice({
           state.getListsStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.getListsStatus = 'idle'
+          state.getListsStatus = 'fulfilled'
           state.toDoLists = action.payload
         },
         rejected: state => {
@@ -77,25 +80,30 @@ export const toDoSlice = createAppSlice({
       },
     ),
     getList: create.asyncThunk(
-      async (listId: string) => {
-        const response = await fetchList(listId)
+      async (listId?: string) => {
+        const response: ToDoListType = await fetchList(listId)
         // The value we return becomes the `fulfilled` action payload
         return response
       },
       {
         pending: state => {
-          state.getListsStatus = 'loading'
+          state.getListStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.getListsStatus = 'idle'
+          state.getListStatus = 'fulfilled'
+          let found = false
           for (let list of state.toDoLists) {
-            if (list == action.payload.id) {
-              list = action.payload
+            if (list.id === action.payload.id) {
+              Object.assign(list, action.payload)
+              found = true
             }
+          }
+          if (!found) {
+            state.toDoLists.push(action.payload)
           }
         },
         rejected: state => {
-          state.getListsStatus = 'failed'
+          state.getListStatus = 'failed'
         },
       },
     ),
@@ -110,7 +118,7 @@ export const toDoSlice = createAppSlice({
           state.addListStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.addListStatus = 'idle'
+          state.addListStatus = 'fulfilled'
           state.toDoLists.push(action.payload)
         },
         rejected: state => {
@@ -148,7 +156,7 @@ export const toDoSlice = createAppSlice({
           state.addListItemStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.addListItemStatus = 'idle'
+          state.addListItemStatus = 'fulfilled'
           //state.value = action.payload
         },
         rejected: state => {
@@ -167,7 +175,7 @@ export const toDoSlice = createAppSlice({
           state.updateListStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.updateListStatus = 'idle'
+          state.updateListStatus = 'fulfilled'
           state.toDoLists[action.payload.name] = action.payload
         },
         rejected: state => {
@@ -186,7 +194,7 @@ export const toDoSlice = createAppSlice({
           state.updateListItemStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.updateListItemStatus = 'idle'
+          state.updateListItemStatus = 'fulfilled'
           state.toDoLists[action.payload.listName] = action.payload
         },
         rejected: state => {
@@ -205,7 +213,7 @@ export const toDoSlice = createAppSlice({
           state.removeListStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.removeListStatus = 'idle'
+          state.removeListStatus = 'fulfilled'
           //state.value = action.payload
         },
         rejected: state => {
@@ -224,7 +232,7 @@ export const toDoSlice = createAppSlice({
           state.removeListItemStatus = 'loading'
         },
         fulfilled: (state, action) => {
-          state.removeListItemStatus = 'idle'
+          state.removeListItemStatus = 'fulfilled'
           //state.value = action.payload
         },
         rejected: state => {
@@ -238,6 +246,15 @@ export const toDoSlice = createAppSlice({
   selectors: {
     selectLists: toDo => toDo.toDoLists,
     selectListsStatus: toDo => toDo.getListsStatus,
+    selectList: (toDo, listId?: string) => {
+      console.log(toDo, listId)
+      const ret = toDo.toDoLists.find(list => {
+        return list.id === listId
+      })
+      console.log(ret)
+      return ret
+    },
+    selectListStatus: toDo => toDo.getListStatus,
     selectListItemsStatus: toDo => toDo.getListItemsStatus,
     selectAddListStatus: toDo => toDo.addListStatus,
     selectAddListItemStatus: toDo => toDo.addListItemStatus,
@@ -252,4 +269,4 @@ export const toDoSlice = createAppSlice({
 export const { getLists, getList, addList, addListItem, removeListItem, removeList, updateList, updateListItem } = toDoSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectLists, selectListsStatus, selectAddListStatus, selectAddListItemStatus, selectDeleteListItemStatus, selectDeleteListStatus, selectListItemsStatus, selectUpdateListItemStatus, selectUpdateListStatus } = toDoSlice.selectors
+export const { selectLists, selectListsStatus, selectList, selectListStatus, selectAddListStatus, selectAddListItemStatus, selectDeleteListItemStatus, selectDeleteListStatus, selectListItemsStatus, selectUpdateListItemStatus, selectUpdateListStatus } = toDoSlice.selectors

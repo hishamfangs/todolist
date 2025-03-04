@@ -1,38 +1,41 @@
 
 import { ToDoListItem } from '../components/ToDoListItem';
 import { useParams } from 'react-router';
-import type { ToDoListItemType } from '../types';
+import type { ToDoListItemType, ToDoListType } from '../types';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getList, selectList, selectListStatus } from '../store/toDoList/toDoSlice';
+import { useEffect, useState } from 'react';
 
 export default function ToDoListPage() {
 	const { id } = useParams();
+	const dispatch = useAppDispatch();
+	const toDoList: ToDoListType = useAppSelector((state) => selectList(state, id)) as ToDoListType;
+	const status = useAppSelector(selectListStatus);
 
+	const [todoList, setTodoList] = useState(toDoList);
+
+
+	console.log(id)
 	// TODO: Fetch the list from the server
-	const toDoList = {
-		id: "1",
-		name: "Grocery List",
-		listItems: [
-			{
-				id: "1",
-				name: "Milk",
-				completed: false
-			},
-			{
-				id: "2",
-				name: "Eggs",
-				completed: true
-			},
-			{
-				id: "3",
-				name: "Bread",
-				completed: false
-			}
-		]
-	};
+	useEffect(() => {
+		dispatch(getList(id));
+	}, []);
+
+	useEffect(() => {
+		console.log(toDoList);
+		setTodoList(toDoList);
+	}, [toDoList]);
+
 	return (
 		<div>
+			{todoList?.name}
+			{todoList?.description}
+			{todoList?.lastUpdated}
+			{todoList?.listItems?.length}
+			
 			<div className="list-items">
-				{toDoList.listItems.map((toDoListItem: ToDoListItemType, index: number) => (
-					<ToDoListItem key={index} toDoListItem={toDoListItem} />
+				{todoList?.listItems?.map((toDoListItem: ToDoListItemType, index: number) => (
+					<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} />
 				))}
 			</div>
 		</div>

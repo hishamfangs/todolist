@@ -8,7 +8,7 @@ export default function LoggedIn() {
 	const { id } = useParams();
 
 	return (
-		<div>
+		<div className="page-container">
 			<Breadcrumbs />
 			<Outlet />
 		</div>

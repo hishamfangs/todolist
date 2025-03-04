@@ -10,6 +10,7 @@ import type { AppDispatch } from "../store/store" */
 
 import { useState } from "react";
 import type { ToDoListItemType } from "../types"
+import { useParams } from "react-router";
 
 export const ToDoListItem = (params: any) => {
   //const dispatch: AppDispatch = useAppDispatch()
@@ -19,10 +20,11 @@ export const ToDoListItem = (params: any) => {
 	//dispatch(getLists());
   //const [toDoLists, setToDoLists] = useState();
 	// TODO: Make this dynamic connect to store
+
 	const [toDoListItem, setToDoListItem] = useState(params.toDoListItem);
 
   return (
-    <div>
+    <div>TESTSTST
       <div className="todo-item">
 				<div className="container">
 					<div className="checkbox">{toDoListItem.completed}</div>

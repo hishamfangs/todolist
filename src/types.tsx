@@ -5,14 +5,16 @@ export interface ToDoListType {
 	id: string
 	name: string
 	description?: string
-	lastUpdated?: Date,
+	lastUpdated?: string,
 	listItems?: ToDoListItemType[]
 }
 export interface ToDoListItemType {
 	id: string
 	name: string
 	completed: boolean
-	lastUpdated?: Date,
+	lastUpdated?: string,
 	listName?: string,
 	listId?: string
 }
+
+export type StoreStatus = 'idle' | 'loading' | 'fulfilled' | 'failed'
