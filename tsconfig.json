@@ -1,7 +1,6 @@
 {
 	"include": [
-    "src",
-    "vite.config.ts"
+    "src"
   ],
   "compilerOptions": {
     "target": "ESNext",
