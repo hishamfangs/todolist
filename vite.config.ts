@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  publicDir: 'public',
   server: {
     open: true,
   },
@@ -15,7 +16,7 @@ export default defineConfig({
     mockReset: true,
   },
   build: {
-    outDir: 'public',
+    outDir: 'dist',
     cssCodeSplit: false,
   },
 })

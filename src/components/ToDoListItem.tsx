@@ -32,10 +32,14 @@ export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeIte
 	}
 
   return (
-		<div className="list-item">
+		<div className={"list-item " + (toDoListItem.completed?'checked':'')}>
 			<div className="container">
 				<div className="info-container">
-					<div className="checkbox">{toDoListItem.completed}<input type="checkbox" /></div>
+					<div className="checkbox"><input type="checkbox" 
+						checked={toDoListItem.completed}
+						onChange={e => {
+						setToDoListItem({...toDoListItem, completed: (e.target.checked)})
+				}} /></div>
 					<div className="text">{toDoListItem.name}</div>
 				</div>
 				<div className="close" onClick={onRemove}><span>X</span></div>

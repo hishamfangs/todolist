@@ -46,6 +46,9 @@ export const ToDoLists = (params: { toDoLists: ToDoListType[]; addNewList: Funct
 	// Add New List Function to add a new list from the input element
 	function addNewList(){
 		console.log("Adding a new list");
+		if (!ref.current?.value){
+			return;
+		}
 		params.addNewList(ref.current?.value);
 	}
 

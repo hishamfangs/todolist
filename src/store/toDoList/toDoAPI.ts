@@ -90,12 +90,13 @@ export async function deleteListItem(id: string, itemId: string): Promise<boolea
   return true
 }
 // Add To Do List Item
-export async function putListItem(item: ToDoListItemType): Promise<string> {
-  const response = await fetch(`${apiURL}toDoListItem/`, {
+export async function putListItem(listId: string, item: ToDoListItemType): Promise<ToDoListItemType> {
+  return { ...item, listId: listId, id: Math.random().toString(36).substring(7), lastUpdated: new Date().toString() }
+  /* const response = await fetch(`${apiURL}toDoListItem/`, {
     method: 'PUT',
     body: JSON.stringify(item),
   })
-  return response.json()
+  return response.json() */
 }
 // Update To Do List Item
 export async function postListItem(item: ToDoListItemType) {

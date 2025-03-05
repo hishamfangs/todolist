@@ -1,16 +1,7 @@
 import { Suspense, useState } from "react"
 //import { ToDoList } from "./ToDoList"
-import type { ToDoListItemType, ToDoListType } from "../types"
-
-import { useAppDispatch, useAppSelector } from "../app/hooks"
-import {
-  getLists, getList, selectLists, selectListsStatus,
-	toDoSlice
-} from "../store/toDoList/toDoSlice"
-import type { AppDispatch } from "../store/store"
-import { ToDoListItem } from "./ToDoListItem"
-import getMonthByNumber from "../utils/getMonthByNumber"
 import { useNavigate } from "react-router"
+import { DateComponent } from "./DateComponent"
 
 export const ToDoListButton = (params: any) => {
 /*   const dispatch: AppDispatch = useAppDispatch()
@@ -34,7 +25,7 @@ export const ToDoListButton = (params: any) => {
 					<div className="text">{toDoList.name}</div>
 					<div className="description">{toDoList.description}</div>
 				</div>
-				<div className="date"><span className="day">{new Date(toDoList.lastUpdated).getDate()}</span><span className="month">{getMonthByNumber(new Date(toDoList.lastUpdated).getMonth())}</span></div>
+				<DateComponent date={new Date(toDoList.lastUpdated)} />
 			</div>
 		</div>
   )

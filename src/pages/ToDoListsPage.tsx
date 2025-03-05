@@ -8,6 +8,7 @@ import {
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import type { ToDoListType } from "../types"
+import { setActiveList } from "../store/userManagement/userManagementSlice"
 
 export const ToDoListsPage = () => {
 
@@ -19,6 +20,7 @@ export const ToDoListsPage = () => {
 	
 	useEffect(() => {
 		console.log('called')
+		dispatch(setActiveList(''));
 		dispatch(getLists());
 	}, []);
 

@@ -145,8 +145,8 @@ export const toDoSlice = createAppSlice({
       },
     ), */
     addListItem: create.asyncThunk(
-      async (listItem: ToDoListItemType): Promise<string> => {
-        const response = await putListItem(listItem)
+      async ({ listId, listItem }: { listId: string; listItem: ToDoListItemType }): Promise<ToDoListItemType> => {
+        const response = await putListItem(listId, listItem)
         // The value we return becomes the `fulfilled` action payload
         return response
       },
@@ -156,6 +156,12 @@ export const toDoSlice = createAppSlice({
         },
         fulfilled: (state, action) => {
           state.addListItemStatus = 'fulfilled'
+          //state.toDoLists.push(action.payload)
+          if (state.toDoLists.length > 0) {
+            const found = state.toDoLists.find(list => list.id === action.payload.listId)
+            found?.listItems?.push(action.payload)
+            //selectList({ todoList: state }, action.payload.listId).push(action.payload)
+          }
           //state.value = action.payload
         },
         rejected: state => {

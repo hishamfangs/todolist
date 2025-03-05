@@ -74,11 +74,12 @@ export const userManagement = createAppSlice({
     selectToken: userManagement => userManagement.token,
     selectStatus: userManagement => userManagement.status,
     selectBreadCrumbNavigationState: userManagement => userManagement.breadcrumbNavigationState,
+    selectActiveListId: userManagement => userManagement.breadcrumbNavigationState.activeListId,
   },
 })
 
 // Action creators are generated for each case reducer function.
-export const { login, logout } = userManagement.actions
+export const { login, logout, setActiveList } = userManagement.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectStatus, selectToken, selectBreadCrumbNavigationState } = userManagement.selectors
+export const { selectStatus, selectToken, selectBreadCrumbNavigationState, selectActiveListId } = userManagement.selectors
