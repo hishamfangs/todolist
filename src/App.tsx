@@ -8,10 +8,14 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 import { Provider } from "react-redux"
 import { store } from "./store/store"
 import { ToDoListsPage } from "./pages/ToDoListsPage"
+import { ProtectedRoute } from "./components/ProtectedRoute"
+import { useAppDispatch, useAppSelector } from "./app/hooks"
 
 const App = () => {
 	// Initialize the theme from local storage
 	const [theme] = useLocalStorage("theme","light");
+	//const dispatch = useAppDispatch();
+	const [token, setToken] = useLocalStorage("token", "");
 
 	// Setup React Router
 	const routes = createBrowserRouter([
@@ -20,7 +24,10 @@ const App = () => {
 			element: <Login />
 		},{
 			path: '/todolists', 
-			element: <LoggedIn />,
+			element: 
+				<ProtectedRoute token={token}>
+					<LoggedIn />
+				</ProtectedRoute>,
 			children: [
 				{
 					path: '', 

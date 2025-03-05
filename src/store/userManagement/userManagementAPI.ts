@@ -2,6 +2,8 @@ import { apiURL } from '../../utils/global'
 
 // Login
 export async function fetchLogin(username: string, password: string): Promise<string> {
+  return 'F2DL34F2KPHSAPQ34234A25345'
+
   const response = await fetch(`${apiURL}/login`, {
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -14,6 +16,7 @@ export async function fetchLogin(username: string, password: string): Promise<st
 
 // LogOut
 export async function fetchLogout(username: string): Promise<string> {
+  return ''
   const response = await fetch(`${apiURL}/logout`, {
     method: 'POST',
     body: JSON.stringify({ username }),
