@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from "react"
+import { KeyboardEventHandler, Suspense, useEffect, useRef, useState } from "react"
 //import { ToDoList } from "./ToDoList"
 import type { ToDoListItemType, ToDoListType } from "../types"
 
@@ -18,30 +18,20 @@ export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNew
 
 	const navigate = useNavigate();
 	const [todoList, setToDoList] = useState(params.toDoList);
+	const [description, setDescription] = useState('');
 
 	useEffect(() => {
+		console.log("To Do list:", params.toDoList)
 		setToDoList(params.toDoList);
 	}, [params.toDoList]);
+
+ 	useEffect(() => {
+		setDescription(params.toDoList?.description??'');
+	}, [params.toDoList?.description]);
 
 	// Insert Functionality
 	// Add A Reference to the input element
 	const ref = useRef<HTMLInputElement>(null);
-
-	// Add an event listener to the input element to listen for the Enter key and submit
-	useEffect(() => {
-		const handleKeyPress = (event: KeyboardEvent) => {
-			if (event.key === 'Enter') {
-				addNewListItem();
-			}
-		};
-
-		const inputElement = ref.current;
-		inputElement?.addEventListener('keypress', handleKeyPress);
-
-		return () => {
-			inputElement?.removeEventListener('keypress', handleKeyPress);
-		};
-	}, []);
 
 	// Delete the entry if the item is added successfully
 	useEffect(() => {
@@ -50,13 +40,20 @@ export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNew
 		}
 	}, [params.status]);
 
+	function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+		if (event.key === 'Enter') {
+			addNewListItem();
+		}
+	}
+
 	// Add New List Function to add a new list from the input element
 	function addNewListItem(){
+		console.log("Adding a new list item: " + params.toDoList);
 		if (!ref.current?.value){
 			return;
 		}
 		console.log("Adding a new list");
-		params.addNewListItem(params.toDoList.id, ref.current?.value);
+		params.addNewListItem(todoList.id, ref.current?.value);
 		ref.current!.value = "";
 	}
 
@@ -67,14 +64,14 @@ export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNew
   return (
 		<>
 			<div className="add-item card">
-				<input placeholder="Start Typing to insert a new list item..." ref={ref} />
-				<button type="button" onClick={addNewListItem}>Insert</button>
+				<input placeholder="Start Typing to insert a new list item..." ref={ref} onKeyUp={handleKeyPress} />
+				<button type="button" onClick={()=>addNewListItem()}>Insert</button>
 			</div>
 			<div className="todo-list card">
 				<div className="description">
-					<input value={todoList?.description} onChange={(e)=>{setToDoList({...todoList, description: e.target.value})}}></input>
+					<input placeholder="Add a description here..." value={description} onChange={(e)=>{setDescription(e.target.value)}}></input>
 					<div className="lastUpdated">
-						<DateComponent date={new Date(todoList?.lastUpdated ?? '')} />
+						<DateComponent date={todoList?.lastUpdated?new Date(todoList.lastUpdated):null} />
 					</div>
 				</div> 
 				<div className="list-items">

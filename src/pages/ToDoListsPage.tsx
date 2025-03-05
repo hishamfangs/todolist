@@ -28,7 +28,8 @@ export const ToDoListsPage = () => {
 		console.log("Adding a new list");
 		dispatch(addList({
 			name: name,
-			id:""
+			id: "",
+			listItems: []
 		}));
 	}
 
