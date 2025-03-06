@@ -10,7 +10,13 @@
   --mid-grey: #b0b0b0;
   --input-grey: #e3e3e3;
 }
-
+:root .darktheme {
+  --primary: #ffae00;
+  --secondary: white;
+  --light-grey: #212121;
+  --mid-grey: #aaaaaa;
+  --input-grey: #818181;
+}
 /*************** General - Default Tags ********************/
 
 html > body {
@@ -55,13 +61,7 @@ a {
   flex-direction: column;
   justify-content: center;
   height: 100vh;
-  background-image:;
-  background-position-x:;
-  background-position-y:;
-  background-repeat:;
-  background-attachment:;
-  background-origin:;
-  background-clip:;
+  background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
   background-size: cover;
   background-color: var(--light-grey);
 }
@@ -93,6 +93,9 @@ a {
   transition: 1s;
   z-index: 1;
   position: relative;
+}
+.darktheme .card {
+  background: black;
 }
 
 .pending {
@@ -168,6 +171,11 @@ a {
 
 .submit button {
   width: 100%;
+}
+
+.darktheme .submit button {
+  background: var(--primary);
+  color: black;
 }
 /********************* To Do lists Page *****************************/
 .todo-lists {
@@ -400,11 +408,21 @@ input[type='checkbox']:disabled {
   line-height: 0.9em;
   font-size: 1.7rem;
 }
-
+.darktheme .day {
+  color: black;
+}
 .month {
   font-size: 1.1em;
   font-weight: 700;
   color: var(--mid-grey);
+}
+
+.darktheme .breadcrumb {
+  filter: invert(1);
+}
+
+.darktheme .breadcrumb.title {
+  filter: invert(0);
 }
 
 .listButton .container {
@@ -538,9 +556,6 @@ input[type='checkbox']:disabled {
 
 .pointer {
   cursor: pointer;
-}
-
-#login .submit button {
 }
 
 .theme-switcher {
