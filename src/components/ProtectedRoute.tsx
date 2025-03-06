@@ -7,7 +7,7 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ token, children }: ProtectedRouteProps) {
-  if (!token) {
+  if (!token || token === '""') {
     return <Navigate to="/" replace />;
   }
 

@@ -25,8 +25,9 @@ export const Login = (): JSX.Element => {
   //const [toDoLists, setToDoLists] = useState();
 
 	useEffect(() => {
+		debugger;
 		setTokenLocal(token);
-		if (token){
+		if (token && token !== '""'){
 			navigate('/todolists');
 		}
 	}, [token]);

@@ -51,8 +51,8 @@ export const userManagement = createAppSlice({
       },
     ),
     logout: create.asyncThunk(
-      async (listId: string) => {
-        const response = await fetchLogout(listId)
+      async () => {
+        const response = await fetchLogout()
         return response
       },
       {

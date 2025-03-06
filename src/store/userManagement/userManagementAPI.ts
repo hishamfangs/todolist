@@ -15,7 +15,7 @@ export async function fetchLogin(username: string, password: string): Promise<st
 }
 
 // LogOut
-export async function fetchLogout(username: string): Promise<string> {
+export async function fetchLogout(): Promise<string> {
   return ''
   const response = await fetch(`${apiURL}/logout`, {
     method: 'POST',

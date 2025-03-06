@@ -1,19 +1,22 @@
 import { NavLink, useNavigate } from "react-router";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { useAppSelector } from "../app/hooks";
-import { selectActiveListId, selectBreadCrumbNavigationState } from "../store/userManagement/userManagementSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { logout, selectActiveListId, selectBreadCrumbNavigationState } from "../store/userManagement/userManagementSlice";
 import type { BreadcrumbNavigationStateType } from "../types";
 import { selectList } from "../store/toDoList/toDoSlice";
+import { useLocalStorage } from "@uidotdev/usehooks"
 
 export default function Breadcrumbs() {
 	const navigate = useNavigate();
-	//const breadcrumbNavigation: BreadcrumbNavigationStateType = useAppSelector(selectBreadCrumbNavigationState);
+	const dispatch = useAppDispatch();
 	const activeListId: string | undefined = useAppSelector(selectActiveListId);
 	const toDoListName = useAppSelector((state) => activeListId ? selectList(state, activeListId)?.name : '');
+	const [token, setToken] = useLocalStorage('token', '')
 
-	function onClick(){ 
-		localStorage.removeItem('token');
-		navigate('/')
+	function onClick(){
+		dispatch(logout());
+		setToken('');
+		navigate('/');
 	}
 
 	return (
