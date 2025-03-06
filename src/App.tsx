@@ -1,5 +1,4 @@
 
-import { ToDoLists } from "./components/ToDoLists"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Login } from "./pages/Login"
 import ToDoListPage from "./pages/ToDoListPage"
@@ -9,13 +8,13 @@ import { Provider } from "react-redux"
 import { store } from "./store/store"
 import { ToDoListsPage } from "./pages/ToDoListsPage"
 import { ProtectedRoute } from "./components/ProtectedRoute"
-import { useAppDispatch, useAppSelector } from "./app/hooks"
+
 
 const App = () => {
 	// Initialize the theme from local storage
 	const [theme] = useLocalStorage("theme","light");
 	//const dispatch = useAppDispatch();
-	const [token, setToken] = useLocalStorage("token", "");
+	const [token] = useLocalStorage("token", "");
 
 	// Setup React Router
 	const routes = createBrowserRouter([

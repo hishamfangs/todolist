@@ -2,9 +2,11 @@ import type { ToDoListType, ToDoListItemType } from '../../types'
 import { apiURL } from '/src/utils/global'
 // Get To Do Lists
 export async function fetchLists(filter: string = '') {
-  /*   const response = await fetch(`${apiURL}toDoLists/${filter}`)
-  return response.json() */
-  return [
+  const response = await fetch(`${apiURL}toDoLists/${filter}`, {
+    method: 'GET',
+  })
+  return response.json()
+  /* return [
     {
       id: '1',
       name: 'Grocery List',
@@ -19,7 +21,7 @@ export async function fetchLists(filter: string = '') {
       lastUpdated: new Date().toString(),
       listItems: [],
     },
-  ]
+  ] */
 }
 // Get To Do List
 export async function fetchList(id?: string): Promise<ToDoListType> {

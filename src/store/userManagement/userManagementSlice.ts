@@ -1,4 +1,4 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
+import type { PayloadAction, StateFromReducersMapObject } from '@reduxjs/toolkit'
 import { createAppSlice } from '../../app/createAppSlice'
 import { fetchLogin, fetchLogout } from './userManagementAPI'
 import type { BreadcrumbNavigationStateType, StoreStatus } from '../../types'
@@ -33,13 +33,21 @@ export const userManagement = createAppSlice({
 
     // Login to the To Do Lists App
     login: create.asyncThunk(
-      async ({ username, password }: { username: string; password: string }) => {
-        const response = await fetchLogin(username, password)
-        return response
+      async ({ username, password }: { username: string; password: string }, thunkApi) => {
+        let response = ''
+        try {
+          response = await fetchLogin(username, password)
+          return response
+        } catch (e) {
+          throw new Error('Error: ' + response + ': ' + e)
+          // throw thunkApi.rejectWithValue({
+          //   error: 'Error: ' + response + ': ' + e,
+          // })
+        }
       },
       {
         pending: state => {
-          state.status = 'loading'
+          state.status = 'pending'
         },
         fulfilled: (state, action) => {
           state.status = 'fulfilled'
@@ -47,23 +55,26 @@ export const userManagement = createAppSlice({
         },
         rejected: state => {
           state.status = 'failed'
+          console.log('Login failed')
         },
       },
     ),
     logout: create.asyncThunk(
-      async () => {
-        const response = await fetchLogout()
+      async (undefined, { getState }) => {
+        const userManagement: UserManagementSliceState = getState() as StateFromReducersMapObject<UserManagementSliceState>
+        const response = await fetchLogout(userManagement.username)
         return response
       },
       {
         pending: state => {
-          state.status = 'loading'
+          state.status = 'pending'
         },
         fulfilled: (state, action) => {
           state.status = 'fulfilled'
           state.token = ''
         },
         rejected: state => {
+          console.log('rejected')
           state.status = 'failed'
         },
       },

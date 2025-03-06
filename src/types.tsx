@@ -23,4 +23,4 @@ export interface BreadcrumbNavigationStateType {
 	backButton?: boolean
 }
 
-export type StoreStatus = 'idle' | 'loading' | 'fulfilled' | 'failed'
+export type StoreStatus = 'idle' | 'loading' | 'fulfilled' | 'failed' | 'pending'

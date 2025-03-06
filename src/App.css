@@ -1,8 +1,6 @@
-/************** General - Fonts & Colors ************************/
-
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+/************** General - Fonts & Colors ************************/
 :root {
   --primary: #ffae00;
   --secondary: black;
@@ -18,17 +16,14 @@
   --input-grey: #818181;
 }
 /*************** General - Default Tags ********************/
-
 html > body {
   font-family: Quicksand, sans-serif;
   box-sizing: border-box;
 }
-
 * {
   box-sizing: border-box;
   font-family: Quicksand, sans-serif;
 }
-
 input,
 textarea,
 select {
@@ -37,7 +32,6 @@ select {
   height: 40px;
   padding: 10px;
 }
-
 button {
   border-radius: 8px;
   height: 40px;
@@ -47,14 +41,12 @@ button {
   font-weight: bold;
   font-size: 1.1rem;
 }
-
 a {
   text-decoration: none;
   color: var(--secondary);
   cursor: pointer;
 }
 /*********************** Front Page *************************/
-
 .App {
   color: var(--secondary);
   display: flex;
@@ -65,7 +57,6 @@ a {
   background-size: cover;
   background-color: var(--light-grey);
 }
-
 #container {
   display: flex;
   flex-flow: column;
@@ -74,11 +65,9 @@ a {
   width: 100%;
   flex: 1 0 auto;
 }
-
 .page-container {
   height: 100dvh;
 }
-
 .card {
   display: flex;
   max-width: 900px;
@@ -97,29 +86,37 @@ a {
 .darktheme .card {
   background: black;
 }
-
 .pending {
 }
-
 .idle {
 }
-
 .fulfilled {
 }
-
 .pending::after {
   content: '';
   position: absolute;
   margin-top: -4px;
   height: 4px;
   background: var(--primary);
-  animation: 1s ease 0s infinite normal none running addLoading;
+  animation: 0.5s ease-in-out 0s infinite normal none running addLoading;
   z-index: 9;
   left: 0px;
   bottom: 0px;
   overflow: hidden;
 }
 
+.failed::after {
+  content: '';
+  position: absolute;
+  margin-top: -10px;
+  height: 4px;
+  background: red;
+  z-index: 9;
+  left: 0px;
+  bottom: 0px;
+  overflow: hidden;
+  width: 100%;
+}
 @keyframes addLoading {
   0% {
     width: 0%;
@@ -135,19 +132,16 @@ a {
   width: 400px;
   padding: 60px;
 }
-
 #login .title {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
 }
-
 #login h1 {
   margin-top: 0px;
   color: var(--primary);
 }
-
 .form {
   display: flex;
   flex-flow: column;
@@ -155,24 +149,22 @@ a {
   align-items: stretch;
   gap: 20px;
 }
-
 .input {
   display: flex;
   flex-flow: column;
   gap: 5px;
 }
-
 .submit {
   margin-top: 20px;
   position: relative;
   border-radius: 8px;
   overflow: hidden;
 }
-
 .submit button {
   width: 100%;
+  height: 60px;
+  cursor: pointer;
 }
-
 .darktheme .submit button {
   background: var(--primary);
   color: black;
@@ -182,7 +174,6 @@ a {
   max-width: 900px;
   width: 900px;
 }
-
 .todo-list-button {
   display: flex;
   flex-direction: column;
@@ -194,7 +185,6 @@ a {
   animation: 0.2s ease 0s 1 normal none running expand-new-item;
   cursor: pointer;
 }
-
 .todo-list-button .container {
   display: flex;
   flex-direction: row;
@@ -205,17 +195,14 @@ a {
   border-left: 5px solid grey;
   min-height: 70px;
 }
-
 .todo-list-button .title .text {
   font-size: 1.4rem;
 }
-
 .todo-list-button .title {
   display: flex;
   flex-flow: column;
   justify-content: center;
 }
-
 .todo-list-button .description {
   font-size: 0.7em;
   margin: 3px 0px;
@@ -224,14 +211,12 @@ a {
   display: flex;
   align-items: center;
 }
-
 /************* To Do List Items Page ***********************/
 .list-items {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
-
 .list-items:empty::before {
   content: 'nothing to see here!';
   text-align: center;
@@ -241,15 +226,12 @@ a {
   line-height: 100px;
   color: var(--mid-grey);
 }
-
 .list-item {
   position: relative;
 }
-
 .list-item.checked .text {
   text-decoration: line-through;
 }
-
 .list-item .close {
   flex: 0 0 auto;
   padding: 5px 10px;
@@ -262,7 +244,6 @@ a {
   cursor: pointer;
   margin-right: 20px;
 }
-
 .list-item::after {
   content: '';
   position: absolute;
@@ -272,11 +253,9 @@ a {
   background: var(--light-grey);
   bottom: -15px;
 }
-
 .list-item:last-child::after {
   display: none;
 }
-
 input[type='checkbox'] {
   appearance: none;
   margin: 0px;
@@ -291,7 +270,6 @@ input[type='checkbox'] {
   display: grid;
   place-content: center;
 }
-
 input[type='checkbox']::before {
   content: '';
   width: 0.65em;
@@ -303,33 +281,27 @@ input[type='checkbox']::before {
   box-shadow: white 1em 1em inset;
   background: white;
 }
-
 input[type='checkbox']:checked::before {
   transform: scale(1);
   color: white;
 }
-
 input[type='checkbox']:checked {
   background: black;
   color: white;
 }
-
 input[type='checkbox']:focus {
   outline: none;
 }
-
 input[type='checkbox']:disabled {
   --form-control-color: var(--form-control-disabled);
   color: var(--form-control-disabled);
   cursor: not-allowed;
 }
-
 .list-item .info-container {
   display: flex;
   gap: 20px;
   align-items: center;
 }
-
 .list-item .container {
   display: flex;
   justify-content: space-between;
@@ -339,24 +311,20 @@ input[type='checkbox']:disabled {
   padding: 3px 0px;
   text-decoration: none !important;
 }
-
 .checked .text {
   text-decoration: line-through;
 }
-
 .description {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
 }
-
 .description input {
   border: none;
   width: 100%;
   font-size: 1.3rem;
 }
-
 .add-item.card {
   background: var(--secondary);
   color: white;
@@ -369,27 +337,22 @@ input[type='checkbox']:disabled {
   flex-direction: row;
   justify-content: space-between;
 }
-
 .todo-list {
   margin-top: 100px;
 }
-
 .add-item input {
   flex: 1 1 auto;
 }
-
 .add-item button {
   background: var(--primary);
   color: black;
   min-width: 150px;
 }
-
 .todo-list .date {
   background: var(--light-grey);
   padding: 15px;
   min-width: 70px;
 }
-
 .date {
   background: white;
   border-radius: 16px;
@@ -402,7 +365,6 @@ input[type='checkbox']:disabled {
   flex: 0 0 auto;
   min-width: 70px;
 }
-
 .day {
   font-weight: 700;
   line-height: 0.9em;
@@ -416,15 +378,12 @@ input[type='checkbox']:disabled {
   font-weight: 700;
   color: var(--mid-grey);
 }
-
 .darktheme .breadcrumb {
   filter: invert(1);
 }
-
 .darktheme .breadcrumb.title {
   filter: invert(0);
 }
-
 .listButton .container {
   display: flex;
   flex-direction: row;
@@ -438,25 +397,21 @@ input[type='checkbox']:disabled {
   align-items: center;
   width: 100%;
 }
-
 .add {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
 }
-
 .add.listButton .container {
   background: var(--secondary);
   border-left: 5px solid var(--secondary);
   justify-content: flex-start;
 }
-
 .add:hover .container {
   background: rgb(31, 31, 31);
   border-left: 5px solid rgb(71, 71, 71);
   cursor: pointer;
 }
-
 .plus-sign {
   font-size: 4rem;
   color: var(--primary);
@@ -464,13 +419,11 @@ input[type='checkbox']:disabled {
   font-weight: 450;
   padding: 0px 20px;
 }
-
 .add-text {
   color: white;
   font-size: 1.5rem;
   flex: 1 0 auto;
 }
-
 .todo-lists input,
 .todo-list-button input {
   border: 0px;
@@ -480,7 +433,6 @@ input[type='checkbox']:disabled {
   font-size: 1.2rem;
   width: 100%;
 }
-
 .todo-lists input:focus,
 .todo-list-button input:focus {
   outline: none;
@@ -494,12 +446,10 @@ input[type='checkbox']:disabled {
   align-items: center;
   text-overflow: ellipsis;
 }
-
 .breadcrumb.title {
   flex: 1 1 auto;
   line-height: 1.7rem;
 }
-
 .breadcrumb.back {
   background: white;
   width: 70px;
@@ -515,21 +465,18 @@ input[type='checkbox']:disabled {
   justify-content: center;
   cursor: pointer;
 }
-
 .breadcrumb.profile {
   background-image: url('/public/assets/account.png');
   background-size: contain;
   width: 80px;
   background-repeat: no-repeat;
 }
-
 .breadcrumb.logout {
   background-image: url('/public/assets/logout.png');
   background-size: contain;
   width: 80px;
   background-repeat: no-repeat;
 }
-
 .breadcrumb_icons {
   display: flex;
   flex-direction: row;
@@ -537,27 +484,22 @@ input[type='checkbox']:disabled {
   gap: 20px;
   flex: 0 0 auto;
 }
-
 .breadcrumb_icons > * {
   background-position: center center;
 }
-
 .breadcrumbs {
   max-width: 900px;
   width: 900px;
 }
-
 .breadcrumbs > .container {
   display: flex;
   place-content: center space-between;
   align-items: center;
   gap: 20px;
 }
-
 .pointer {
   cursor: pointer;
 }
-
 .theme-switcher {
   background: rgb(247, 249, 251);
   border: 1px solid var(--light-grey);
@@ -567,7 +509,6 @@ input[type='checkbox']:disabled {
   height: auto;
   flex: 0 0 auto;
 }
-
 .theme-switcher button {
   border-radius: 42px;
   font-size: 0.7rem;
@@ -578,7 +519,6 @@ input[type='checkbox']:disabled {
   cursor: pointer;
   position: relative;
 }
-
 .theme-switcher button:first-child {
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
@@ -586,17 +526,14 @@ input[type='checkbox']:disabled {
     margin-left 0.3s cubic-bezier(0.68, -0.23, 0.26, 1.15),
     background 0.3s cubic-bezier(0.75, -0.59, 0.22, 1.61);
 }
-
 .dark button {
   background: none;
   color: black;
 }
-
 .theme-switcher button:first-child {
   margin-left: 52px;
   position: absolute;
 }
-
 .theme-switcher.dark button:first-child {
   background: black;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
@@ -604,7 +541,6 @@ input[type='checkbox']:disabled {
   margin-left: 0px;
   color: white !important;
 }
-
 .theme-switcher button:nth-child(2) {
   border-radius: 42px;
   font-size: 0.7rem;
@@ -614,34 +550,28 @@ input[type='checkbox']:disabled {
   color: var(--secondary);
   box-shadow: none;
 }
-
 .theme-switcher.dark button:nth-child(2) {
   box-shadow: none;
   color: white;
   background: none;
 }
-
 .theme-switcher {
   cursor: pointer;
 }
-
 .theme-switcher button:last-child {
   background: none;
 }
-
 .App.darktheme {
   background-color: rgb(61, 61, 61);
   color: white;
   transition: background-color 0.3s;
 }
-
 @media (max-width: 1024px) {
   .todo-lists {
     max-width: 80%;
     width: 80%;
   }
 }
-
 @keyframes expand-new-item {
   0% {
     max-height: 0px;

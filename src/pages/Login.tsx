@@ -8,36 +8,33 @@ import type { AppDispatch } from "../store/store"
 import { login, selectStatus, selectToken } from "../store/userManagement/userManagementSlice"
 import { useLocalStorage } from "@uidotdev/usehooks"
 
-/* 
-import { useAppDispatch, useAppSelector } from "../app/hooks"
-import {
-  getLists, getList, selectLists, selectListsStatus
-} from "../store/userManagement/toDoSlice"
- */
-
 export const Login = (): JSX.Element => {
+	const navigate = useNavigate();
+	const [username, setUsername] = useState('user1');
+	const [password, setPassword] = useState('password');
+
+	// Loading the store
 	const dispatch: AppDispatch = useAppDispatch();
 	const token = useAppSelector(selectToken);
 	const status = useAppSelector(selectStatus);
 	const [tokenLocal, setTokenLocal] = useLocalStorage('token', '');
-  //const toDoLists: ToDoListType[] = useAppSelector(selectLists)
-  //const status = useAppSelector(selectListsStatus);
-  //const [toDoLists, setToDoLists] = useState();
 
+	// if the localToken is set, navigate to the Todolists page
 	useEffect(() => {
-		debugger;
 		setTokenLocal(token);
 		if (token && token !== '""'){
 			navigate('/todolists');
 		}
 	}, [token]);
-
-	const navigate = useNavigate();
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	useEffect(() => {
+		if (status==='failed'){
+			alert('Login Failed');
+		}
+	}, [status]);
 
 	function onClick(e: React.MouseEvent<HTMLButtonElement>){
-		console.log("Login", e);
+		console.log("Login Clicked");
+		// Login & Set the Token when Button is clicked
 		dispatch(login({username: username, password: password}));
 	}
 
@@ -58,7 +55,7 @@ export const Login = (): JSX.Element => {
 									<label htmlFor="password">Password</label>
 									<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} />
 								</div>
-								<div className="submit">
+								<div className={"submit " + status}>
 									<button onClick={onClick} className="pointer">Login</button>
 								</div>
 							</div>
