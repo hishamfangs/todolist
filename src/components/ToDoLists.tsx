@@ -10,12 +10,12 @@ import { AlertOnStatusFailed } from "./AlertOnStatusFailed";
 
 export const ToDoLists = () => {
 	// Get the toDoLists from the parameters
-const dispatch: AppDispatch = useAppDispatch()
+	const dispatch: AppDispatch = useAppDispatch()
 	const toDoLists: ToDoListType[] = useAppSelector(selectLists)
 	const status = useAppSelector(selectListsStatus);
 	const addStatus = useAppSelector(selectAddListStatus);
 	const [orderedLists, setOrderedLists] = useState(toDoLists);
-	
+
 	useEffect(() => {
 		console.log('called')
 		dispatch(setActiveList(''));
@@ -31,7 +31,7 @@ const dispatch: AppDispatch = useAppDispatch()
 		const todoNew = toDoLists.toSorted((a: ToDoListType, b: ToDoListType) => {
 			return new Date(String(b.lastUpdated)).getTime() - new Date(String(a.lastUpdated)).getTime();
 		});
-		console.log(todoNew); 
+		console.log(todoNew);
 		setOrderedLists(todoNew);
 	}, [toDoLists]);
 
@@ -57,15 +57,15 @@ const dispatch: AppDispatch = useAppDispatch()
 
 	// Delete the entry if the item is added successfully
 	useEffect(() => {
-		if (addStatus === "fulfilled"){
+		if (addStatus === "fulfilled") {
 			ref.current!.value = "";
 		}
 	}, [addStatus]);
 
 	// Add New List Function to add a new list from the input element
-	function addNewList(){
+	function addNewList() {
 		console.log("Adding a new list");
-		if (!ref.current?.value){
+		if (!ref.current?.value) {
 			return;
 		}
 		console.log("Adding a new list");
@@ -76,7 +76,7 @@ const dispatch: AppDispatch = useAppDispatch()
 		}));
 	}
 
-  return (
+	return (
 		<div className="todo-lists card">
 			<div className={"add listButton " + addStatus}>
 				<div className="container ">
@@ -91,7 +91,7 @@ const dispatch: AppDispatch = useAppDispatch()
 					))
 				}
 			</Suspense>
-			<AlertOnStatusFailed status={status} message="Failed to get To Do Lists" />;
+			<AlertOnStatusFailed status={status} message="Failed to get To Do Lists" />
 		</div>
-  )
+	)
 }

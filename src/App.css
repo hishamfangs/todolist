@@ -1,649 +1,772 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 /************** General - Fonts & Colors ************************/
 :root {
-  --primary: #ffae00;
-  --secondary: black;
-  --light-grey: #f3f3f3;
-  --mid-grey: #b0b0b0;
-  --input-grey: #e3e3e3;
+	--primary: #ffae00;
+	--secondary: black;
+	--light-grey: #f3f3f3;
+	--mid-grey: #b0b0b0;
+	--input-grey: #e3e3e3;
 }
+
 :root .darktheme {
-  --primary: #ffae00;
-  --secondary: white;
-  --light-grey: #212121;
-  --mid-grey: #aaaaaa;
-  --input-grey: #818181;
+	--primary: #ffae00;
+	--secondary: white;
+	--light-grey: #212121;
+	--mid-grey: #aaaaaa;
+	--input-grey: #818181;
 }
+
 /*************** General - Default Tags ********************/
-html > body {
-  font-family: Quicksand, sans-serif;
-  box-sizing: border-box;
+html>body {
+	font-family: Quicksand, sans-serif;
+	box-sizing: border-box;
 }
+
 * {
-  box-sizing: border-box;
-  font-family: Quicksand, sans-serif;
+	box-sizing: border-box;
+	font-family: Quicksand, sans-serif;
 }
+
 input,
 textarea,
 select {
-  border: 1px solid rgb(227, 227, 227);
-  border-radius: 8px;
-  height: 40px;
-  padding: 10px;
+	border: 1px solid rgb(227, 227, 227);
+	border-radius: 8px;
+	height: 40px;
+	padding: 10px;
 }
+
 button {
-  border-radius: 8px;
-  height: 40px;
-  background: black;
-  color: white;
-  border: none;
-  font-weight: bold;
-  font-size: 1.1rem;
+	border-radius: 8px;
+	height: 40px;
+	background: black;
+	color: white;
+	border: none;
+	font-weight: bold;
+	font-size: 1.1rem;
 }
+
 a {
-  text-decoration: none;
-  color: var(--secondary);
-  cursor: pointer;
+	text-decoration: none;
+	color: var(--secondary);
+	cursor: pointer;
 }
+
 /*********************** Front Page *************************/
 .App {
-  color: var(--secondary);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+	color: var(--secondary);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
+
 .background {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  color: var(--secondary);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
-  background-size: cover;
-  background-color: var(--light-grey);
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	color: var(--secondary);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
+	background-size: cover;
+	background-color: var(--light-grey);
 }
+
 #container {
-  display: flex;
-  flex-flow: column;
-  place-content: center;
-  align-items: center;
-  width: 100%;
-  flex: 1 0 auto;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  min-height: 100dvh;
+	display: flex;
+	flex-flow: column;
+	place-content: center;
+	align-items: center;
+	width: 100%;
+	flex: 1 0 auto;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	min-height: 100dvh;
 }
 
 #container.login {
-  justify-content: center;
+	justify-content: center;
 }
+
 .page-container {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+	position: relative;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 }
+
 .card {
-  display: flex;
-  max-width: 900px;
-  width: 900px;
-  background: white;
-  border-radius: 16px;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 32px;
-  gap: 20px;
-  transition: 1s;
-  z-index: 1;
-  position: relative;
+	display: flex;
+	max-width: 900px;
+	width: 900px;
+	background: white;
+	border-radius: 16px;
+	flex-direction: column;
+	justify-content: center;
+	padding: 40px;
+	box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 32px;
+	gap: 20px;
+	transition: 1s;
+	z-index: 1;
+	position: relative;
 }
+
 .darktheme .card {
-  background: black;
+	background: black;
 }
-.pending {
-}
-.idle {
-}
-.fulfilled {
-}
+
+.pending {}
+
+.idle {}
+
+.fulfilled {}
+
 .pending::after {
-  content: '';
-  position: absolute;
-  margin-top: -4px;
-  height: 4px;
-  background: var(--primary) !important;
-  animation: 1s ease-in-out 0s infinite normal none running addLoading;
-  z-index: 9;
-  left: 0px;
-  bottom: 0px;
-  overflow: hidden;
+	content: '';
+	position: absolute;
+	margin-top: -4px;
+	height: 4px;
+	background: var(--primary) !important;
+	animation: 1s ease-in-out 0s infinite normal none running addLoading;
+	z-index: 9;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
 }
 
 .failed::after {
-  content: '';
-  position: absolute;
-  margin-top: -10px;
-  height: 4px;
-  background: red;
-  z-index: 9;
-  left: 0px;
-  bottom: 0px;
-  overflow: hidden;
-  width: 100%;
+	content: '';
+	position: absolute;
+	margin-top: -10px;
+	height: 4px;
+	background: red;
+	z-index: 9;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	width: 100%;
 }
+
 @keyframes addLoading {
-  0% {
-    width: 0%;
-  }
-  70% {
-    width: 100%;
-    left: 0%;
-  }
-  100% {
-    width: 100%;
-    left: 100%;
-  }
+	0% {
+		width: 0%;
+	}
+
+	70% {
+		width: 100%;
+		left: 0%;
+	}
+
+	100% {
+		width: 100%;
+		left: 100%;
+	}
 }
+
 /*************** Login Page ***************************/
 #login {
-  max-width: 400px;
-  width: 400px;
-  padding: 60px;
+	max-width: 400px;
+	width: 400px;
+	padding: 60px;
 }
+
 #login .title {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
 }
+
 #login h1 {
-  margin-top: 0px;
-  color: var(--primary);
+	margin-top: 0px;
+	color: var(--primary);
 }
+
 .form {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-  align-items: stretch;
-  gap: 20px;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+	align-items: stretch;
+	gap: 20px;
 }
+
 .input {
-  display: flex;
-  flex-flow: column;
-  gap: 5px;
+	display: flex;
+	flex-flow: column;
+	gap: 5px;
 }
+
 .submit {
-  margin-top: 20px;
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
+	margin-top: 20px;
+	position: relative;
+	border-radius: 8px;
+	overflow: hidden;
 }
+
 .submit button {
-  width: 100%;
-  height: 60px;
-  cursor: pointer;
+	width: 100%;
+	height: 60px;
+	cursor: pointer;
 }
+
 .darktheme .submit button {
-  background: var(--primary);
-  color: black;
+	background: var(--primary);
+	color: black;
 }
+
 /********************* To Do lists Page *****************************/
 .todo-lists {
-  max-width: 900px;
-  width: 900px;
+	max-width: 900px;
+	width: 900px;
 }
+
 .todo-list-button {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  place-content: space-between;
-  align-items: center;
-  max-height: 100px;
-  overflow: hidden;
-  animation: 0.2s ease 0s 1 normal none running expand-new-item;
-  cursor: pointer;
-  position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	place-content: space-between;
+	align-items: center;
+	max-height: 100px;
+	overflow: hidden;
+	animation: 0.2s ease 0s 1 normal none running expand-new-item;
+	cursor: pointer;
+	position: relative;
 }
+
 .todo-list-button .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 15px 15px 15px 30px;
-  border-radius: 16px;
-  background: var(--light-grey);
-  border-left: 5px solid grey;
-  min-height: 70px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 15px 15px 15px 30px;
+	border-radius: 16px;
+	background: var(--light-grey);
+	border-left: 5px solid grey;
+	min-height: 70px;
 }
+
 .todo-list-button .title .text {
-  font-size: 1.4rem;
+	font-size: 1.4rem;
 }
+
 .todo-list-button .title {
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
 }
+
 .todo-list-button .description {
-  font-size: 0.7em;
-  margin: 3px 0px;
-  color: var(--mid-grey);
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
+	font-size: 0.7em;
+	margin: 3px 0px;
+	color: var(--mid-grey);
+	vertical-align: middle;
+	display: flex;
+	align-items: center;
 }
+
 /************* To Do List Items Page ***********************/
 .list-items {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  overflow-x: clip;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	overflow-x: clip;
 }
+
 .list-items:empty::before {
-  content: 'nothing to see here!';
-  text-align: center;
-  border: 1px solid var(--light-grey);
-  border-radius: 16px;
-  min-height: 100px;
-  line-height: 100px;
-  color: var(--mid-grey);
+	content: 'nothing to see here!';
+	text-align: center;
+	border: 1px solid var(--light-grey);
+	border-radius: 16px;
+	min-height: 100px;
+	line-height: 100px;
+	color: var(--mid-grey);
 }
-.add-item.pending + * .list-items:empty::before {
-  content: 'loading...';
-  text-align: center;
-  border: 1px solid var(--light-grey);
-  border-radius: 16px;
-  min-height: 100px;
-  line-height: 100px;
-  color: var(--mid-grey);
+
+.add-item.pending+* .list-items:empty::before {
+	content: 'loading...';
+	text-align: center;
+	border: 1px solid var(--light-grey);
+	border-radius: 16px;
+	min-height: 100px;
+	line-height: 100px;
+	color: var(--mid-grey);
 }
+
 .list-item {
-  position: relative;
+	position: relative;
 }
+
 .list-item.checked .text {
-  text-decoration: line-through;
+	text-decoration: line-through;
 }
+
 .close {
-  flex: 0 0 auto;
-  padding: 5px 10px;
-  border-radius: 60px;
-  background: var(--light-grey);
-  width: 30px;
-  height: 30px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 20px;
+	flex: 0 0 auto;
+	padding: 5px 10px;
+	border-radius: 60px;
+	background: var(--light-grey);
+	width: 30px;
+	height: 30px;
+	font-size: 15px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-right: 20px;
 }
+
 .todo-list-button .close {
-  background: var(--mid-grey);
-  color: white;
-  margin: 0 0 0 20px;
+	background: var(--mid-grey);
+	color: white;
+	margin: 0 0 0 20px;
 }
+
 .todolistbutton-rightside {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-  justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	align-items: center;
+	justify-content: space-between;
 }
+
 .list-item::after {
-  content: '';
-  position: absolute;
-  left: 0px;
-  width: 100%;
-  height: 1px;
-  background: var(--light-grey);
-  bottom: -15px;
+	content: '';
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	height: 1px;
+	background: var(--light-grey);
+	bottom: -15px;
 }
+
 .list-item:last-child::after {
-  display: none;
+	display: none;
 }
+
 input[type='checkbox'] {
-  appearance: none;
-  margin: 0px;
-  font: inherit;
-  color: white;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid black;
-  border-radius: 0.15em;
-  transform: translateY(-0.075em);
-  transition: background-color 0.3s;
-  display: grid;
-  place-content: center;
+	appearance: none;
+	margin: 0px;
+	font: inherit;
+	color: white;
+	width: 1.15em;
+	height: 1.15em;
+	border: 0.15em solid black;
+	border-radius: 0.15em;
+	transform: translateY(-0.075em);
+	transition: background-color 0.3s;
+	display: grid;
+	place-content: center;
 }
+
 input[type='checkbox']::before {
-  content: '';
-  width: 0.65em;
-  height: 0.65em;
-  clip-path: polygon(14% 44%, 0px 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-  transform: scale(0);
-  transform-origin: left bottom;
-  transition: transform 0.1s ease-in-out;
-  box-shadow: white 1em 1em inset;
-  background: white;
+	content: '';
+	width: 0.65em;
+	height: 0.65em;
+	clip-path: polygon(14% 44%, 0px 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	transform: scale(0);
+	transform-origin: left bottom;
+	transition: transform 0.1s ease-in-out;
+	box-shadow: white 1em 1em inset;
+	background: white;
 }
+
 input[type='checkbox']:checked::before {
-  transform: scale(1);
-  color: white;
+	transform: scale(1);
+	color: white;
 }
+
 input[type='checkbox']:checked {
-  background: black;
-  color: white;
+	background: black;
+	color: white;
 }
+
 input[type='checkbox']:focus {
-  outline: none;
+	outline: none;
 }
+
 input[type='checkbox']:disabled {
-  --form-control-color: var(--form-control-disabled);
-  color: var(--form-control-disabled);
-  cursor: not-allowed;
+	--form-control-color: var(--form-control-disabled);
+	color: var(--form-control-disabled);
+	cursor: not-allowed;
 }
+
 .list-item .info-container {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+	display: flex;
+	gap: 20px;
+	align-items: center;
 }
+
 .list-item .container {
-  display: flex;
-  justify-content: space-between;
-  max-height: 40px;
-  overflow: hidden;
-  animation: 0.3s ease 0s 1 normal none running expand-new-item;
-  padding: 3px 0px;
-  text-decoration: none !important;
+	display: flex;
+	justify-content: space-between;
+	max-height: 40px;
+	overflow: hidden;
+	animation: 0.3s ease 0s 1 normal none running expand-new-item;
+	padding: 3px 0px;
+	text-decoration: none !important;
 }
+
 .checked .text {
-  text-decoration: line-through;
+	text-decoration: line-through;
 }
+
 .description {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
 }
+
 .description input {
-  border: none;
-  width: 100%;
-  font-size: 1.3rem;
+	border: none;
+	width: 100%;
+	font-size: 1.3rem;
 }
+
 .add-item.card {
-  background: var(--secondary);
-  color: white;
-  position: absolute;
-  z-index: 0;
-  height: 130px;
-  display: flex;
-  padding-top: 30px;
-  flex-direction: row;
-  justify-content: space-between;
-  overflow: hidden;
+	background: var(--secondary);
+	color: white;
+	position: absolute;
+	z-index: 0;
+	height: 130px;
+	display: flex;
+	padding-top: 30px;
+	flex-direction: row;
+	justify-content: space-between;
+	overflow: hidden;
 }
+
 .todo-list {
-  margin-top: 100px;
+	margin-top: 100px;
 }
+
 .add-item input {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
+
 .add-item button {
-  background: var(--primary);
-  color: black;
-  min-width: 150px;
+	background: var(--primary);
+	color: black;
+	min-width: 150px;
 }
+
 .todo-list .date {
-  background: var(--light-grey);
-  padding: 15px;
-  min-width: 70px;
+	background: var(--light-grey);
+	padding: 15px;
+	min-width: 70px;
 }
+
 .date {
-  background: white;
-  border-radius: 16px;
-  padding: 5px 10px;
-  display: flex;
-  flex-direction: column;
-  width: 70px;
-  place-content: center;
-  align-items: center;
-  flex: 0 0 auto;
-  min-width: 70px;
+	background: white;
+	border-radius: 16px;
+	padding: 5px 10px;
+	display: flex;
+	flex-direction: column;
+	width: 70px;
+	place-content: center;
+	align-items: center;
+	flex: 0 0 auto;
+	min-width: 70px;
 }
+
 .day {
-  font-weight: 700;
-  line-height: 0.9em;
-  font-size: 1.7rem;
+	font-weight: 700;
+	line-height: 0.9em;
+	font-size: 1.7rem;
 }
+
 .darktheme .day {
-  color: black;
+	color: #8a8a8a;
 }
+
+.darktheme .month {
+	color: black;
+}
+
 .month {
-  font-size: 1.1em;
-  font-weight: 700;
-  color: var(--mid-grey);
+	font-size: 1.1em;
+	font-weight: 700;
+	color: var(--mid-grey);
 }
+
+.darktheme .todo-list-button .close {
+	background: #404040;
+	color: #9f9f9f;
+}
+
 .darktheme .breadcrumb {
-  filter: invert(1);
+	filter: invert(1);
 }
+
 .darktheme .breadcrumb.title {
-  filter: invert(0);
+	filter: invert(0);
 }
+
 .listButton .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 15px;
-  border-radius: 16px;
-  background: var(--light-grey);
-  border-left: 5px solid var(--mid-grey);
-  min-height: 100px;
-  box-sizing: border-box;
-  align-items: center;
-  width: 100%;
-  overflow: clip;
-  position: relative;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 15px;
+	border-radius: 16px;
+	background: var(--light-grey);
+	border-left: 5px solid var(--mid-grey);
+	min-height: 100px;
+	box-sizing: border-box;
+	align-items: center;
+	width: 100%;
+	overflow: clip;
+	position: relative;
 }
+
 .add {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
+	position: relative;
+	border-radius: 16px;
+	overflow: hidden;
 }
+
 .add.listButton .container {
-  background: var(--secondary);
-  border-left: 5px solid var(--secondary);
-  justify-content: flex-start;
+	background: var(--secondary);
+	border-left: 5px solid var(--secondary);
+	justify-content: flex-start;
 }
+
+.darktheme .add.listButton .container {
+	background: #272727;
+	border-left: 5px solid #3b3b3b;
+	justify-content: flex-start;
+}
+
+.darktheme .listButton .container {
+	background: var(--light-grey);
+	border-left: 5px solid #3b3b3b;
+}
+
+.darktheme .date {
+	background: #343434;
+}
+
 .add:hover .container {
-  background: rgb(31, 31, 31);
-  border-left: 5px solid rgb(71, 71, 71);
-  cursor: pointer;
+	background: rgb(31, 31, 31);
+	border-left: 5px solid rgb(71, 71, 71);
+	cursor: pointer;
 }
+
 .plus-sign {
-  font-size: 4rem;
-  color: var(--primary);
-  line-height: 4rem;
-  font-weight: 450;
-  padding: 0px 20px;
+	font-size: 4rem;
+	color: var(--primary);
+	line-height: 4rem;
+	font-weight: 450;
+	padding: 0px 20px;
 }
+
 .add-text {
-  color: white;
-  font-size: 1.5rem;
-  flex: 1 0 auto;
+	color: white;
+	font-size: 1.5rem;
+	flex: 1 0 auto;
 }
+
 .todo-lists input,
 .todo-list-button input {
-  border: 0px;
-  background: transparent;
-  color: white;
-  padding: 0px;
-  font-size: 1.2rem;
-  width: 100%;
+	border: 0px;
+	background: transparent;
+	color: white;
+	padding: 0px;
+	font-size: 1.2rem;
+	width: 100%;
 }
+
 .todo-lists input:focus,
 .todo-list-button input:focus {
-  outline: none;
+	outline: none;
 }
 
 .add-item.pending::after {
-  content: '';
-  position: absolute;
-  margin-top: 0px;
-  height: 4px;
-  background: var(--primary);
-  animation: 1s ease-in-out 0s infinite normal none running addLoading;
-  z-index: -1;
-  left: 0px;
-  bottom: 0px;
-  overflow: hidden;
-  top: 0px;
+	content: '';
+	position: absolute;
+	margin-top: 0px;
+	height: 4px;
+	background: var(--primary);
+	animation: 1s ease-in-out 0s infinite normal none running addLoading;
+	z-index: -1;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
+	top: 0px;
 }
+
 /******************** Bread Crumbs *************************/
 .breadcrumb {
-  cursor: pointer;
-  height: 100px;
-  width: auto;
-  display: flex;
-  align-items: center;
-  text-overflow: ellipsis;
+	cursor: pointer;
+	height: 100px;
+	width: auto;
+	display: flex;
+	align-items: center;
+	text-overflow: ellipsis;
 }
-.breadcrumb.title {
-  flex: 1 1 auto;
-  line-height: 1.7rem;
-}
-.breadcrumb.back {
-  background: white;
-  width: 70px;
-  flex: 0 0 auto;
-  margin-right: 20px;
-  border-radius: 80px;
-  height: 70px;
-  font-family: inter;
-  font-size: 40px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.breadcrumb.profile {
-  background-image: url('/public/assets/account.png');
-  background-size: contain;
-  width: 80px;
-  background-repeat: no-repeat;
-}
-.breadcrumb.logout {
-  background-image: url('/public/assets/logout.png');
-  background-size: contain;
-  width: 80px;
-  background-repeat: no-repeat;
-}
-.breadcrumb_icons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  flex: 0 0 auto;
-}
-.breadcrumb_icons > * {
-  background-position: center center;
-}
-.breadcrumbs {
-  max-width: 900px;
-  width: 900px;
-}
-.breadcrumbs > .container {
-  display: flex;
-  place-content: center space-between;
-  align-items: center;
-  gap: 20px;
-}
-.pointer {
-  cursor: pointer;
-}
-.theme-switcher {
-  background: rgb(247, 249, 251);
-  border: 1px solid var(--light-grey);
-  padding: 5px;
-  border-radius: 60px;
-  width: auto;
-  height: auto;
-  flex: 0 0 auto;
-}
-.theme-switcher button {
-  border-radius: 42px;
-  font-size: 0.7rem;
-  width: 52px;
-  height: 26px;
-  background: white;
-  color: var(--secondary);
-  cursor: pointer;
-  position: relative;
-}
-.theme-switcher button:first-child {
-  background: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
-  transition:
-    margin-left 0.3s cubic-bezier(0.68, -0.23, 0.26, 1.15),
-    background 0.3s cubic-bezier(0.75, -0.59, 0.22, 1.61);
-}
-.dark button {
-  background: none;
-  color: black;
-}
-.theme-switcher button:first-child {
-  margin-left: 52px;
-  position: absolute;
-}
-.theme-switcher.dark button:first-child {
-  background: black;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
-  position: absolute;
-  margin-left: 0px;
-  color: white !important;
-}
-.theme-switcher button:nth-child(2) {
-  border-radius: 42px;
-  font-size: 0.7rem;
-  width: 52px;
-  height: 26px;
-  background: none;
-  color: var(--secondary);
-  box-shadow: none;
-}
-.theme-switcher.dark button:nth-child(2) {
-  box-shadow: none;
-  color: white;
-  background: none;
-}
-.theme-switcher {
-  cursor: pointer;
-}
-.theme-switcher button:last-child {
-  background: none;
-}
-.darktheme .background {
-  background-color: rgb(61, 61, 61);
-  color: white;
-  transition: background-color 0.3s;
-}
-@media (max-width: 1024px) {
-  .todo-lists {
-    max-width: 80%;
-    width: 80%;
-  }
-}
-@keyframes expand-new-item {
-  0% {
-    max-height: 0px;
-  }
 
-  100% {
-    max-height: 100px;
-  }
+.breadcrumb.title {
+	flex: 1 1 auto;
+	line-height: 1.7rem;
+}
+
+.darktheme .breadcrumb.back {
+	filter: invert(0);
+	color: black;
+}
+
+.breadcrumb.back {
+	background: white;
+	width: 70px;
+	flex: 0 0 auto;
+	margin-right: 20px;
+	border-radius: 80px;
+	height: 70px;
+	font-family: inter;
+	font-size: 40px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.breadcrumb.profile {
+	background-image: url('/public/assets/account.png');
+	background-size: contain;
+	width: 80px;
+	background-repeat: no-repeat;
+}
+
+.breadcrumb.logout {
+	background-image: url('/public/assets/logout.png');
+	background-size: contain;
+	width: 80px;
+	background-repeat: no-repeat;
+}
+
+.breadcrumb_icons {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 20px;
+	flex: 0 0 auto;
+}
+
+.breadcrumb_icons>* {
+	background-position: center center;
+}
+
+.breadcrumbs {
+	max-width: 900px;
+	width: 900px;
+}
+
+.breadcrumbs>.container {
+	display: flex;
+	place-content: center space-between;
+	align-items: center;
+	gap: 20px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.theme-switcher {
+	background: rgb(247, 249, 251);
+	border: 1px solid var(--light-grey);
+	padding: 5px;
+	border-radius: 60px;
+	width: auto;
+	height: auto;
+	flex: 0 0 auto;
+}
+
+.theme-switcher button {
+	border-radius: 42px;
+	font-size: 0.7rem;
+	width: 52px;
+	height: 26px;
+	background: white;
+	color: var(--secondary);
+	cursor: pointer;
+	position: relative;
+}
+
+.theme-switcher button:first-child {
+	background: white;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
+	transition:
+		margin-left 0.3s cubic-bezier(0.68, -0.23, 0.26, 1.15),
+		background 0.3s cubic-bezier(0.75, -0.59, 0.22, 1.61);
+}
+
+.dark button {
+	background: none;
+	color: black;
+}
+
+.theme-switcher button:first-child {
+	margin-left: 52px;
+	position: absolute;
+}
+
+.theme-switcher.dark button:first-child {
+	background: black;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 6px;
+	position: absolute;
+	margin-left: 0px;
+	color: white !important;
+}
+
+.theme-switcher button:nth-child(2) {
+	border-radius: 42px;
+	font-size: 0.7rem;
+	width: 52px;
+	height: 26px;
+	background: none;
+	color: var(--secondary);
+	box-shadow: none;
+}
+
+.theme-switcher.dark button:nth-child(2) {
+	box-shadow: none;
+	color: white;
+	background: none;
+}
+
+.theme-switcher {
+	cursor: pointer;
+}
+
+.theme-switcher button:last-child {
+	background: none;
+}
+
+.darktheme .background {
+	background-color: rgb(61, 61, 61);
+	color: white;
+	transition: background-color 0.3s;
+}
+
+@media (max-width: 1024px) {
+	.todo-lists {
+		max-width: 80%;
+		width: 80%;
+	}
+}
+
+@keyframes expand-new-item {
+	0% {
+		max-height: 0px;
+	}
+
+	100% {
+		max-height: 100px;
+	}
 }
