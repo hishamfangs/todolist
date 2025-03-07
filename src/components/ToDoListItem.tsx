@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import type { ToDoListItemType } from "../types"
 import { useParams } from "react-router";
 
-export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeItem: Function}) => {
+export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeItem: Function, removeStatus: string}) => {
   //const dispatch: AppDispatch = useAppDispatch()
   /* const toDoLists: ToDoListsType[] = useAppSelector(selectLists)
   const status = useAppSelector(selectListsStatus); */
@@ -32,7 +32,7 @@ export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeIte
 	}
 
   return (
-		<div className={"list-item " + (toDoListItem.completed?'checked':'')}>
+		<div className={"list-item " + (toDoListItem.completed?'checked':'') + " " + params.removeStatus}>
 			<div className="container">
 				<div className="info-container">
 					<div className="checkbox"><input type="checkbox" 

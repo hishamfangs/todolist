@@ -67,7 +67,7 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.getListsStatus = 'loading'
+          state.getListsStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.getListsStatus = 'fulfilled'
@@ -79,22 +79,24 @@ export const toDoSlice = createAppSlice({
       },
     ),
     getList: create.asyncThunk(
-      async (listId?: string) => {
+      async (listId: string) => {
         const response: ToDoListType = await fetchList(listId)
         // The value we return becomes the `fulfilled` action payload
         return response
       },
       {
         pending: state => {
-          state.getListStatus = 'loading'
+          state.getListStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.getListStatus = 'fulfilled'
           let found = false
-          for (let list of state.toDoLists) {
-            if (list.id === action.payload.id) {
-              Object.assign(list, action.payload)
+          for (let l in state.toDoLists) {
+            const list = state.toDoLists[l]
+            if (String(list.id) === String(action.meta.arg)) {
+              state.toDoLists[l] = { ...action.payload, id: String(action.payload.id) }
               found = true
+              break
             }
           }
           if (!found) {
@@ -114,7 +116,7 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.addListStatus = 'loading'
+          state.addListStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.addListStatus = 'fulfilled'
@@ -125,41 +127,22 @@ export const toDoSlice = createAppSlice({
         },
       },
     ),
-    /* getListItems: create.asyncThunk(
-      async (listId: string) => {
-        const response = await fetchListItems(listId)
-        // The value we return becomes the `fulfilled` action payload
-        return response.data
-      },
-      {
-        pending: state => {
-          state.getListItemsStatus = "loading"
-        },
-        fulfilled: (state, action) => {
-          state.getListItemsStatus = "idle"
-          state.value[action.payload.name] = action.payload
-        },
-        rejected: state => {
-          state.getListItemsStatus = "failed"
-        },
-      },
-    ), */
     addListItem: create.asyncThunk(
       async ({ listId, listItem }: { listId: string; listItem: ToDoListItemType }): Promise<ToDoListItemType> => {
-        const response = await putListItem(listId, listItem)
+        const response: ToDoListItemType = await putListItem(listId, listItem)
         // The value we return becomes the `fulfilled` action payload
         return response
       },
       {
         pending: state => {
-          state.addListItemStatus = 'loading'
+          state.addListItemStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.addListItemStatus = 'fulfilled'
           //state.toDoLists.push(action.payload)
           if (state.toDoLists.length > 0) {
-            const found = state.toDoLists.find(list => list.id === action.payload.listId)
-            found?.listItems?.push(action.payload)
+            const found: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(action.meta.arg.listId).trim())
+            state.toDoLists[found]?.listItems?.push(action.payload)
             //selectList({ todoList: state }, action.payload.listId).push(action.payload)
           }
           //state.value = action.payload
@@ -177,7 +160,7 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.updateListStatus = 'loading'
+          state.updateListStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.updateListStatus = 'fulfilled'
@@ -196,7 +179,7 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.updateListItemStatus = 'loading'
+          state.updateListItemStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.updateListItemStatus = 'fulfilled'
@@ -215,10 +198,11 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.removeListStatus = 'loading'
+          state.removeListStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.removeListStatus = 'fulfilled'
+          state.toDoLists = state.toDoLists.filter(list => String(list.id).trim() !== String(action.meta.arg).trim())
           //state.value = action.payload
         },
         rejected: state => {
@@ -234,7 +218,7 @@ export const toDoSlice = createAppSlice({
       },
       {
         pending: state => {
-          state.removeListItemStatus = 'loading'
+          state.removeListItemStatus = 'pending'
         },
         fulfilled: (state, action) => {
           state.removeListItemStatus = 'fulfilled'
@@ -252,9 +236,9 @@ export const toDoSlice = createAppSlice({
     selectLists: toDo => toDo.toDoLists,
     selectListsStatus: toDo => toDo.getListsStatus,
     selectList: (toDo, listId?: string) => {
-      console.log(toDo, listId)
+      console.log('In Store: Select List has been called: for ' + listId)
       const ret = toDo.toDoLists.find(list => {
-        return list.id === listId
+        return String(list.id).trim() === listId
       })
       console.log(ret)
       return ret

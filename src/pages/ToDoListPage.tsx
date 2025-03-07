@@ -2,16 +2,18 @@
 import { useParams } from 'react-router';
 import type { BreadcrumbNavigationStateType, ToDoListType } from '../types';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addListItem, getList, selectList, selectListStatus } from '../store/toDoList/toDoSlice';
+import { addListItem, getList, selectAddListItemStatus, selectList, selectListStatus } from '../store/toDoList/toDoSlice';
 import { useEffect, useState } from 'react';
 import { ToDoList } from '../components/ToDoList';
 import { selectBreadCrumbNavigationState, setActiveList } from '../store/userManagement/userManagementSlice';
+import { AlertOnStatusFailed } from '../components/AlertOnStatusFailed';
 
 export default function ToDoListPage() {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 	const toDoList: ToDoListType = useAppSelector((state) => selectList(state, id)) as ToDoListType;
 	const status = useAppSelector(selectListStatus);
+	const addStatus = useAppSelector(selectAddListItemStatus);
 
 	const [todoList, setTodoList] = useState(toDoList);
 
@@ -24,7 +26,9 @@ export default function ToDoListPage() {
 	console.log(id)
 
 	useEffect(() => {
-		dispatch(getList(id));
+		if (id){
+			dispatch(getList(id));
+		}
 	}, []);
 
 	useEffect(() => {
@@ -45,8 +49,9 @@ export default function ToDoListPage() {
 		}));
 	}
 	return (
-		<div>
-			<ToDoList toDoList={todoList} status={status} addNewListItem={addNewListItem} />
+		<div id="container">
+			<ToDoList toDoList={todoList} status={status} addNewListItem={addNewListItem} addStatus={addStatus} />
+			<AlertOnStatusFailed status={status} message="Failed to get To Do List Items" />;
 		</div>
 	);
 }

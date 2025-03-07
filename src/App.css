@@ -52,7 +52,17 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+}
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  color: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background: url('/public/assets/todo-background.png') var(--light-grey) no-repeat center center;
   background-size: cover;
   background-color: var(--light-grey);
@@ -64,9 +74,22 @@ a {
   align-items: center;
   width: 100%;
   flex: 1 0 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  min-height: 100dvh;
+}
+
+#container.login {
+  justify-content: center;
 }
 .page-container {
-  height: 100dvh;
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 .card {
   display: flex;
@@ -97,8 +120,8 @@ a {
   position: absolute;
   margin-top: -4px;
   height: 4px;
-  background: var(--primary);
-  animation: 0.5s ease-in-out 0s infinite normal none running addLoading;
+  background: var(--primary) !important;
+  animation: 1s ease-in-out 0s infinite normal none running addLoading;
   z-index: 9;
   left: 0px;
   bottom: 0px;
@@ -121,9 +144,13 @@ a {
   0% {
     width: 0%;
   }
-
+  70% {
+    width: 100%;
+    left: 0%;
+  }
   100% {
     width: 100%;
+    left: 100%;
   }
 }
 /*************** Login Page ***************************/
@@ -184,6 +211,7 @@ a {
   overflow: hidden;
   animation: 0.2s ease 0s 1 normal none running expand-new-item;
   cursor: pointer;
+  position: relative;
 }
 .todo-list-button .container {
   display: flex;
@@ -216,9 +244,19 @@ a {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  overflow-x: clip;
 }
 .list-items:empty::before {
   content: 'nothing to see here!';
+  text-align: center;
+  border: 1px solid var(--light-grey);
+  border-radius: 16px;
+  min-height: 100px;
+  line-height: 100px;
+  color: var(--mid-grey);
+}
+.add-item.pending + * .list-items:empty::before {
+  content: 'loading...';
   text-align: center;
   border: 1px solid var(--light-grey);
   border-radius: 16px;
@@ -232,7 +270,7 @@ a {
 .list-item.checked .text {
   text-decoration: line-through;
 }
-.list-item .close {
+.close {
   flex: 0 0 auto;
   padding: 5px 10px;
   border-radius: 60px;
@@ -243,6 +281,18 @@ a {
   font-weight: bold;
   cursor: pointer;
   margin-right: 20px;
+}
+.todo-list-button .close {
+  background: var(--mid-grey);
+  color: white;
+  margin: 0 0 0 20px;
+}
+.todolistbutton-rightside {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
 }
 .list-item::after {
   content: '';
@@ -330,12 +380,12 @@ input[type='checkbox']:disabled {
   color: white;
   position: absolute;
   z-index: 0;
-  margin-top: -98px;
   height: 130px;
   display: flex;
   padding-top: 30px;
   flex-direction: row;
   justify-content: space-between;
+  overflow: hidden;
 }
 .todo-list {
   margin-top: 100px;
@@ -396,6 +446,8 @@ input[type='checkbox']:disabled {
   box-sizing: border-box;
   align-items: center;
   width: 100%;
+  overflow: clip;
+  position: relative;
 }
 .add {
   position: relative;
@@ -436,6 +488,20 @@ input[type='checkbox']:disabled {
 .todo-lists input:focus,
 .todo-list-button input:focus {
   outline: none;
+}
+
+.add-item.pending::after {
+  content: '';
+  position: absolute;
+  margin-top: 0px;
+  height: 4px;
+  background: var(--primary);
+  animation: 1s ease-in-out 0s infinite normal none running addLoading;
+  z-index: -1;
+  left: 0px;
+  bottom: 0px;
+  overflow: hidden;
+  top: 0px;
 }
 /******************** Bread Crumbs *************************/
 .breadcrumb {
@@ -561,7 +627,7 @@ input[type='checkbox']:disabled {
 .theme-switcher button:last-child {
   background: none;
 }
-.App.darktheme {
+.darktheme .background {
   background-color: rgb(61, 61, 61);
   color: white;
   transition: background-color 0.3s;

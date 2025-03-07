@@ -4,7 +4,8 @@ import type { ToDoListItemType, ToDoListType } from "../types"
 
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
-	removeListItem
+	removeListItem,
+	selectDeleteListItemStatus
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import { ToDoListItem } from "./ToDoListItem"
@@ -12,14 +13,15 @@ import getMonthByNumber from "../utils/getMonthByNumber"
 import { useNavigate } from "react-router"
 import { DateComponent } from "./DateComponent"
 
-export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNewListItem: Function}) => {
+export const ToDoList = (params: {toDoList: ToDoListType, status: String, addStatus: string, addNewListItem: Function}) => {
 
 	const dispatch: AppDispatch = useAppDispatch()
 
 	const navigate = useNavigate();
 	const [todoList, setToDoList] = useState(params.toDoList);
 	const [description, setDescription] = useState('');
-
+	const removeStatus = useAppSelector(selectDeleteListItemStatus);
+	const [removeItemId, setRemoveItemId] = useState('');
 	useEffect(() => {
 		console.log("To Do list:", params.toDoList)
 		setToDoList(params.toDoList);
@@ -58,12 +60,16 @@ export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNew
 	}
 
 	function removeItemFromList(itemId: string){
+		setRemoveItemId(String(itemId).trim());
 		dispatch(removeListItem({listId: params.toDoList.id, itemId: itemId}))
+	}
+	function getStatus(itemId: string){
+		return removeItemId === itemId?removeStatus:'';
 	}
 
   return (
 		<>
-			<div className="add-item card">
+			<div className={"add-item card " + params.addStatus + " " + params.status}>
 				<input placeholder="Start Typing to insert a new list item..." ref={ref} onKeyUp={handleKeyPress} />
 				<button type="button" onClick={()=>addNewListItem()}>Insert</button>
 			</div>
@@ -76,7 +82,7 @@ export const ToDoList = (params: {toDoList: ToDoListType, status: String, addNew
 				</div> 
 				<div className="list-items">
 					{todoList?.listItems?.map((toDoListItem: ToDoListItemType, index: number) => (
-						<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} />
+						<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} removeStatus={getStatus(String(toDoListItem.id))} />
 					))}
 				</div>
 			</div>

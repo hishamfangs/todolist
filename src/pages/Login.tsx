@@ -11,7 +11,7 @@ import { useLocalStorage } from "@uidotdev/usehooks"
 export const Login = (): JSX.Element => {
 	const navigate = useNavigate();
 	const [username, setUsername] = useState('user1');
-	const [password, setPassword] = useState('password');
+	const [password, setPassword] = useState('123456');
 
 	// Loading the store
 	const dispatch: AppDispatch = useAppDispatch();
@@ -26,41 +26,48 @@ export const Login = (): JSX.Element => {
 			navigate('/todolists');
 		}
 	}, [token]);
-	useEffect(() => {
-		if (status==='failed'){
-			alert('Login Failed');
-		}
-	}, [status]);
 
-	function onClick(e: React.MouseEvent<HTMLButtonElement>){
-		console.log("Login Clicked");
+	function doLogin(){
+		console.log("Login Initiated");
 		// Login & Set the Token when Button is clicked
 		dispatch(login({username: username, password: password}));
 	}
 
+	function onClick(e: React.MouseEvent<HTMLButtonElement>){
+		doLogin();
+	}
+
+	function onEnter(e: React.KeyboardEvent<HTMLInputElement>){
+		if (e.key === 'Enter') {
+			doLogin();
+		}
+	}
+
   return (
-    <div id="login" className="card">
-				<Suspense fallback={<div>Loading...</div>}>
-				<div className="container">
-					<div className="title">
-								<h1>LOGIN</h1>
-								<ThemeSwitcher />
-							</div>
-							<div className="form">
-								<div className="input">
-									<label htmlFor="username">Username</label>
-									<input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} />
+		<div id="container" className="login">
+			<div id="login" className="card">
+					<Suspense fallback={<div>Loading...</div>}>
+					<div className="container">
+						<div className="title">
+									<h1>LOGIN</h1>
+									<ThemeSwitcher />
 								</div>
-								<div className="input">
-									<label htmlFor="password">Password</label>
-									<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} />
+								<div className="form">
+									<div className="input">
+										<label htmlFor="username">Username</label>
+										<input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} />
+									</div>
+									<div className="input">
+										<label htmlFor="password">Password</label>
+										<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} onKeyUp={onEnter} />
+									</div>
+									<div className={"submit " + status}>
+										<button onClick={onClick} className="pointer">Login</button>
+									</div>
 								</div>
-								<div className={"submit " + status}>
-									<button onClick={onClick} className="pointer">Login</button>
-								</div>
-							</div>
-					</div>
-				</Suspense>
-    </div>
+						</div>
+					</Suspense>
+			</div>
+		</div>
   )
 }

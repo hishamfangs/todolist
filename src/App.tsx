@@ -44,10 +44,9 @@ const App = () => {
   return (
     <div className={"App " + theme + "theme"}>
 			{/* ^ Use the 'theme' var to add a class named dark to the App Container if on dark mode */}
+			<div className="background"></div>
 			<Provider store={store}>
-				<div id="container">
-					<RouterProvider router={routes}/>
-				</div>
+				<RouterProvider router={routes}/>
 			</Provider>			
 		</div>
   )
