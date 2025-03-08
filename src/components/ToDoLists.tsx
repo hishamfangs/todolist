@@ -15,6 +15,7 @@ export const ToDoLists = () => {
 	const status = useAppSelector(selectListsStatus);
 	const addStatus = useAppSelector(selectAddListStatus);
 	const [orderedLists, setOrderedLists] = useState(toDoLists);
+	const [removeItemId, setRemoveItemId] = useState('');
 
 	useEffect(() => {
 		console.log('called')

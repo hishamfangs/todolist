@@ -10,6 +10,7 @@ import type { AppDispatch } from "../store/store";
 export const ToDoListButton = (params: {toDoList: ToDoListType}) => {
 	const dispatch: AppDispatch = useAppDispatch()
   const removeStatus = useAppSelector(selectDeleteListStatus);
+	const [removedId, setRemovedId]	= useState('');
 
 	//ispatch(getLists());
   //const [toDoLists, setToDoLists] = useState();.
@@ -24,6 +25,7 @@ export const ToDoListButton = (params: {toDoList: ToDoListType}) => {
 	}
 
 	function onRemove(e: React.MouseEvent<HTMLDivElement>){
+		setRemovedId(params.toDoList.id);
 		e.stopPropagation();
 		console.log("ToDoList", e);
 		dispatch(removeList(params.toDoList.id));
@@ -31,7 +33,7 @@ export const ToDoListButton = (params: {toDoList: ToDoListType}) => {
 
   return (
 		<div className={"todo-list-button listButton "} onClick={onClick}>
-			<div className={"container " + removeStatus} >
+			<div className={"container " + (removedId==params.toDoList.id && removeStatus?removeStatus:'')} >
 				<div className="title">
 					<div className="text">{params.toDoList.name}</div>
 					<div className="description">{params.toDoList.description}</div>
