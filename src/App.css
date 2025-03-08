@@ -263,7 +263,7 @@ a {
 }
 
 .todo-list-button .description {
-	font-size: 0.7em;
+	font-size: 0.8em;
 	margin: 3px 0px;
 	color: var(--mid-grey);
 	vertical-align: middle;
@@ -324,6 +324,7 @@ a {
 	background: var(--mid-grey);
 	color: white;
 	margin: 0 0 0 20px;
+	box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
 }
 
 .todolistbutton-rightside {
@@ -426,6 +427,7 @@ input[type='checkbox']:disabled {
 	border: none;
 	width: 100%;
 	font-size: 1.3rem;
+	width: calc(100% - 90px);
 }
 
 .add-item.card {

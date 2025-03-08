@@ -3,10 +3,10 @@
 
 export interface ToDoListType {
 	id: string
-	name: string
+	name?: string
 	description?: string
 	lastUpdated?: string,
-	listItems: ToDoListItemType[]
+	listItems?: ToDoListItemType[]
 }
 export interface ToDoListItemType {
 	id: string
