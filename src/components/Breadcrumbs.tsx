@@ -5,7 +5,7 @@ import { logout, selectActiveListId, selectBreadCrumbNavigationState } from "../
 import type { BreadcrumbNavigationStateType } from "../types";
 import { selectList, updateList } from "../store/toDoList/toDoSlice";
 import { useLocalStorage } from "@uidotdev/usehooks"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Breadcrumbs() {
 	const navigate = useNavigate();
@@ -21,7 +21,12 @@ export default function Breadcrumbs() {
 		setToken('');
 		navigate('/');
 	}
-
+	useEffect(() => {
+		if (activeListId) {
+			setToDolistName(listName);
+		}
+	}, [listName]);
+	
 	function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
 		if (event.key === 'Enter') {
 			refName.current?.blur();
