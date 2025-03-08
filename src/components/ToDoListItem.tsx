@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import type { ToDoListItemType } from "../types"
 import { useParams } from "react-router";
 
-export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeItem: Function, removeStatus: string}) => {
+export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeItem: Function, removeStatus: string, setChecked: Function}) => {
   //const dispatch: AppDispatch = useAppDispatch()
   /* const toDoLists: ToDoListsType[] = useAppSelector(selectLists)
   const status = useAppSelector(selectListsStatus); */
@@ -31,15 +31,19 @@ export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeIte
 		params.removeItem(params.toDoListItem.id)
 	}
 
+	function updateChecked(e: React.ChangeEvent<HTMLInputElement>){
+		console.log("Updating checked status");
+		params.setChecked(params.toDoListItem.id, e.target.checked);
+		setToDoListItem({...toDoListItem, completed: (e.target.checked)})
+	}
+
   return (
 		<div className={"list-item " + (toDoListItem.completed?'checked':'') + " " + params.removeStatus}>
 			<div className="container">
 				<div className="info-container">
 					<div className="checkbox"><input type="checkbox" 
 						checked={toDoListItem.completed}
-						onChange={e => {
-						setToDoListItem({...toDoListItem, completed: (e.target.checked)})
-				}} /></div>
+						onChange={e => updateChecked(e)} /></div>
 					<div className="text">{toDoListItem.name}</div>
 				</div>
 				<div className="close" onClick={onRemove}><span>X</span></div>

@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
 	removeListItem,
 	selectDeleteListItemStatus,
-	updateList
+	updateList,
+	updateListItem
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import { ToDoListItem } from "./ToDoListItem"
@@ -85,6 +86,14 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 			id, description: description,
 		}));
 	}
+
+	function setChecked(itemId: string, checked: boolean) {
+		dispatch(updateListItem({
+			id: itemId,
+			completed: checked, 
+			listId: todoList.id
+		}))
+	}
 	return (
 		<>
 			<div className={"add-item card " + params.addStatus + " " + params.status}>
@@ -100,7 +109,7 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 				</div>
 				<div className="list-items">
 					{todoList?.listItems?.map((toDoListItem: ToDoListItemType, index: number) => (
-						<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} removeStatus={getStatus(String(toDoListItem.id))} />
+						<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} removeStatus={getStatus(String(toDoListItem.id))} setChecked={setChecked} />
 					))}
 				</div>
 			</div>

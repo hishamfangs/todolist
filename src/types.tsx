@@ -10,8 +10,8 @@ export interface ToDoListType {
 }
 export interface ToDoListItemType {
 	id: string
-	name: string
-	completed: boolean
+	name?: string
+	completed?: boolean
 	lastUpdated?: string,
 	listName?: string,
 	listId?: string
