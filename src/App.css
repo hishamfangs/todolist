@@ -513,7 +513,7 @@ input[type='checkbox']:disabled {
 }
 
 .darktheme .month {
-  color: black;
+  color: #c1c1c1;
 }
 
 .month {
@@ -874,6 +874,9 @@ input[type='checkbox']:disabled {
   }
   .todo-list-button .title .text {
     font-size: 1.2rem;
+  }
+  .plus-sign {
+    padding: 0 5px;
   }
 }
 @keyframes expand-new-item {
