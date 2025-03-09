@@ -427,12 +427,16 @@ input[type='checkbox']:disabled {
 }
 
 .description input {
-  border: none;
+  border: 2px solid white;
   width: 100%;
   font-size: 1.3rem;
   width: calc(100% - 90px);
 }
 
+.breadcrumbs input:hover,
+.description input:hover {
+  border: 2px solid black !important;
+}
 .add-item.card {
   background: var(--secondary);
   color: white;
