@@ -122,7 +122,16 @@ a {
 .darktheme .card {
   background: black;
 }
-
+.darktheme input,
+.darktheme textarea,
+.darktheme select {
+  background: black;
+  border-color: black;
+  color: white;
+}
+.darktheme .add-item.card {
+  background: #595959;
+}
 .pending {
 }
 
@@ -432,7 +441,17 @@ input[type='checkbox']:disabled {
   font-size: 1.3rem;
   width: calc(100% - 90px);
 }
-
+.darktheme .description input {
+  border: 2px solid rgb(0, 0, 0);
+}
+.darktheme input[type='checkbox'] {
+  background: rgb(85, 85, 85);
+  color: white;
+}
+.darktheme input[type='checkbox']:checked {
+  background: rgb(85, 85, 85);
+  color: white;
+}
 .breadcrumbs input:hover,
 .description input:hover {
   border: 2px solid black !important;
@@ -818,11 +837,12 @@ input[type='checkbox']:disabled {
     padding: 20px;
   }
   .breadcrumb {
-    height: 50px !important;
+    height: 90px !important;
     width: 50px !important;
   }
   .breadcrumb.back {
     margin-right: 5px;
+    height: 50px !important;
   }
   .breadcrumbs {
     width: 90%;
