@@ -794,6 +794,12 @@ input[type='checkbox']:disabled {
     font-size: 24px;
     width: 100% !important;
   }
+  .breadcrumbs > .container {
+    gap: 5px;
+  }
+  .add-item button {
+    min-width: auto;
+  }
 }
 @media (max-width: 650px) {
   #login {
@@ -814,6 +820,9 @@ input[type='checkbox']:disabled {
   .breadcrumb {
     height: 50px !important;
     width: 50px !important;
+  }
+  .breadcrumb.back {
+    margin-right: 5px;
   }
   .breadcrumbs {
     width: 90%;
