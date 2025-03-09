@@ -59,6 +59,10 @@ export const userManagement = createAppSlice({
         },
       },
     ),
+    logout: create.reducer(state => {
+      state.token = ''
+    }),
+    /* 
     logout: create.asyncThunk(
       async (undefined, { getState }) => {
         const userManagement: UserManagementSliceState = getState() as StateFromReducersMapObject<UserManagementSliceState>
@@ -78,7 +82,7 @@ export const userManagement = createAppSlice({
           state.status = 'failed'
         },
       },
-    ),
+    ), */
   }),
   // Selectors
   selectors: {

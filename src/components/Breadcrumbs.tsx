@@ -18,8 +18,13 @@ export default function Breadcrumbs() {
 	
 	function onClick(){
 		dispatch(logout());
-		setToken('');
+		localStorage.removeItem('token');
+		debugger;
 		navigate('/');
+		/* setTimeout(() => {
+			navigate('/');
+		}, 1000); */
+		//navigate('/');
 	}
 	useEffect(() => {
 		if (activeListId) {

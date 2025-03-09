@@ -23,6 +23,7 @@ export const Login = (): JSX.Element => {
 	useEffect(() => {
 		setTokenLocal(token);
 		if (token && token !== '""'){
+			debugger;
 			navigate('/todolists');
 		}
 	}, [token]);
