@@ -773,8 +773,80 @@ input[type='checkbox']:disabled {
     max-width: 80%;
     width: 80%;
   }
+  .breadcrumb {
+    height: 40px;
+  }
+  .breadcrumbs {
+    width: 80%;
+  }
+  .breadcrumbs h1 {
+    font-size: 1.5rem;
+  }
+  .breadcrumb_icons {
+    gap: 0px;
+  }
+  .card {
+    display: flex;
+    max-width: 800px;
+    width: 80%;
+  }
+  .breadcrumbs input {
+    font-size: 24px;
+    width: 100% !important;
+  }
 }
-
+@media (max-width: 650px) {
+  #login {
+    max-width: 90%;
+    width: 90%;
+    padding: 20px;
+  }
+  .card {
+    max-width: 90%;
+    width: 90%;
+    padding: 20px;
+  }
+  .todo-lists {
+    max-width: 90%;
+    width: 90%;
+    padding: 20px;
+  }
+  .breadcrumb {
+    height: 50px !important;
+    width: 50px !important;
+  }
+  .breadcrumbs {
+    width: 90%;
+  }
+  .breadcrumbs h1 {
+    font-size: 1.3rem;
+  }
+  .listButton .container {
+    padding: 15px;
+    min-height: 80px;
+    gap: 7px;
+  }
+  .plus-sign {
+    font-size: 3rem;
+  }
+  .todo-lists input,
+  .todo-list-button input {
+    font-size: 1.1rem;
+  }
+  .date {
+    width: 50px;
+    min-width: 50px;
+  }
+  .month {
+    font-size: 1.1em;
+  }
+  .todo-list-button .close {
+    margin: 0 0 0 10px;
+  }
+  .todo-list-button .title .text {
+    font-size: 1.2rem;
+  }
+}
 @keyframes expand-new-item {
   0% {
     max-height: 0px;
