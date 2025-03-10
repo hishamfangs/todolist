@@ -54,11 +54,11 @@ export const Login = (): JSX.Element => {
 									<ThemeSwitcher />
 								</div>
 								<div className="form">
-									<div className="input">
+									<div className={"input " + (status=="failed"? "error" : "")}>
 										<label htmlFor="username">Username</label>
 										<input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} />
 									</div>
-									<div className="input">
+									<div className={"input " + (status=="failed"? "error" : "")}>
 										<label htmlFor="password">Password</label>
 										<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} onKeyUp={onEnter} />
 									</div>
