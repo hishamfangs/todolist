@@ -23,7 +23,6 @@ export const Login = (): JSX.Element => {
 	useEffect(() => {
 		setTokenLocal(token);
 		if (token && token !== '""'){
-			debugger;
 			navigate('/todolists');
 		}
 	}, [token]);
@@ -48,24 +47,24 @@ export const Login = (): JSX.Element => {
 		<div id="container" className="login">
 			<div id="login" className="card">
 					<Suspense fallback={<div>Loading...</div>}>
-					<div className="container">
-						<div className="title">
-									<h1>LOGIN</h1>
-									<ThemeSwitcher />
+						<div className="container">
+							<div className="title slideUp">
+								<h1 className="slideUp">LOGIN</h1>
+								<ThemeSwitcher />
+							</div>
+							<div className="form">
+								<div className={"input " + (status=="failed"? "error" : "")}>
+									<label htmlFor="username" className="slideUp">Username</label>
+									<input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} className="slideUp"/>
 								</div>
-								<div className="form">
-									<div className={"input " + (status=="failed"? "error" : "")}>
-										<label htmlFor="username">Username</label>
-										<input type="text" id="username" name="username" value={username} onChange={e => setUsername(e.target.value)} />
-									</div>
-									<div className={"input " + (status=="failed"? "error" : "")}>
-										<label htmlFor="password">Password</label>
-										<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} onKeyUp={onEnter} />
-									</div>
-									<div className={"submit " + status}>
-										<button onClick={onClick} className="pointer">Login</button>
-									</div>
+								<div className={"input " + (status=="failed"? "error" : "")}>
+									<label htmlFor="password" className="slideUp">Password</label>
+									<input type="password" id="password" name="password"  value={password} onChange={e => setPassword(e.target.value)} onKeyUp={onEnter} className="slideUp" />
 								</div>
+								<div className={"submit " + status}>
+									<button onClick={onClick} className="pointer slideUp" >Login</button>
+								</div>
+							</div>
 						</div>
 					</Suspense>
 			</div>
