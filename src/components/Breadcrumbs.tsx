@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from "react-router";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { logout, selectActiveListId, selectBreadCrumbNavigationState } from "../store/userManagement/userManagementSlice";
-import type { BreadcrumbNavigationStateType } from "../types";
+import { logout, selectActiveListId } from "../store/userManagement/userManagementSlice";
 import { selectList, updateList } from "../store/toDoList/toDoSlice";
 import { useLocalStorage } from "@uidotdev/usehooks"
+import TextareaAutosize from 'react-textarea-autosize';
 import { useEffect, useRef, useState } from "react";
 
 export default function Breadcrumbs() {
@@ -13,13 +13,12 @@ export default function Breadcrumbs() {
 	const activeListId: string | undefined = useAppSelector(selectActiveListId);
 	const listName = useAppSelector((state) => activeListId ? selectList(state, activeListId)?.name : '');
 	const [token, setToken] = useLocalStorage('token', '')
-	const refName = useRef<HTMLInputElement>(null);
+	const refName = useRef<HTMLTextAreaElement>(null);
 	const [toDoListName, setToDolistName] = useState(listName);
 	
 	function onClick(){
 		dispatch(logout());
 		localStorage.removeItem('token');
-		debugger;
 		navigate('/');
 		/* setTimeout(() => {
 			navigate('/');
@@ -32,8 +31,23 @@ export default function Breadcrumbs() {
 		}
 	}, [listName]);
 	
-	function handleKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
-		if (event.key === 'Enter') {
+	function handleKeyPress(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+/* 		console.log(event)
+		if (event.code === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			//debugger;
+			refName.current?.blur();
+			updateName();
+		} */
+	}
+		
+	function handleKeyDownPress(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+		console.log(event)
+		if (event.code === 'Enter') {
+			event.preventDefault();
+			event.stopPropagation();
+			//debugger;
 			refName.current?.blur();
 			updateName();
 		}
@@ -58,7 +72,7 @@ export default function Breadcrumbs() {
 				<h1>
 					{
 						activeListId?
-						<input ref={refName} onKeyUp={handleKeyPress} value={toDoListName} onChange={(e)=>setToDolistName(e.currentTarget.value)} onBlur={updateName} />
+						<TextareaAutosize ref={refName} onKeyDown={handleKeyDownPress} value={toDoListName} onChange={(e)=>setToDolistName(e.currentTarget.value)} onBlur={updateName} >{toDoListName}</TextareaAutosize >
 						:
 						'TO DO LISTS'
 					}

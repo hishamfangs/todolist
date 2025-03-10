@@ -11,17 +11,14 @@ import {
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import { ToDoListItem } from "./ToDoListItem"
-import getMonthByNumber from "../utils/getMonthByNumber"
 import { useNavigate } from "react-router"
+import TextareaAutosize from 'react-textarea-autosize';
 import { DateComponent } from "./DateComponent"
 
 export const ToDoList = (params: { toDoList: ToDoListType, status: String, addStatus: string, addNewListItem: Function }) => {
 
 	const dispatch: AppDispatch = useAppDispatch()
-
-	const navigate = useNavigate();
 	const [todoList, setToDoList] = useState(params.toDoList);
-	const [name, setName] = useState('');
 	const [description, setDescription] = useState('');
 	const removeStatus = useAppSelector(selectDeleteListItemStatus);
 	const [removeItemId, setRemoveItemId] = useState('');
@@ -39,7 +36,7 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 	// Insert Functionality
 	// Add A Reference to the input element
 	const refAdd = useRef<HTMLInputElement>(null);
-	const refDescription = useRef<HTMLInputElement>(null);
+	const refDescription = useRef<HTMLTextAreaElement>(null);
 
 	// Delete the entry if the item is added successfully
 	useEffect(() => {
@@ -73,7 +70,7 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 		return removeItemId === itemId ? removeStatus : '';
 	}
 
-	function saveDescriptionHandler(e: React.KeyboardEvent<HTMLInputElement>) {
+	function saveDescriptionHandler(e: React.KeyboardEvent<HTMLTextAreaElement>) {
 		if (e.key === 'Enter') {
 			saveDescription(todoList.id, description);
 			refDescription.current?.blur();
@@ -102,7 +99,7 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 			</div>
 			<div className="todo-list card">
 				<div className="description">
-					<input placeholder="Add a description here..." value={description} onChange={(e) => { setDescription(e.target.value) }} onKeyUp={(e) => saveDescriptionHandler(e)} onBlur={(e) => saveDescription(todoList.id, description)} ref={refDescription}></input>
+					<TextareaAutosize placeholder="Add a description here..." value={description} onChange={(e) => { setDescription(e.target.value) }} onKeyUp={(e) => saveDescriptionHandler(e)} onBlur={(e) => saveDescription(todoList.id, description)} ref={refDescription}>{description}</TextareaAutosize>
 					<div className="lastUpdated">
 						<DateComponent date={todoList?.lastUpdated ? new Date(todoList.lastUpdated) : null} />
 					</div>
