@@ -919,13 +919,23 @@ input[type='checkbox']:disabled {
   animation: shake 0.4s linear;
   border-color: #da7777a6 !important;
 }
+@keyframes blowUp {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    width: 400px;
+    height: 432px;
+  }
+}
 
 @keyframes slideUp {
   0% {
     transform: translateY(100%);
     opacity: 0;
   }
-  30% {
+  50% {
     transform: translateY(100%);
     opacity: 0;
   }
@@ -941,4 +951,11 @@ input[type='checkbox']:disabled {
   animation-direction: normal;
   animation-fill-mode: forwards;
   animation-duration: 1s;
+}
+
+.blowUp {
+  animation-name: blowUp;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.42, 0.34, 0.56, 1.22);
 }

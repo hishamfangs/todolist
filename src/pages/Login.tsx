@@ -45,7 +45,7 @@ export const Login = (): JSX.Element => {
 
   return (
 		<div id="container" className="login">
-			<div id="login" className="card">
+			<div id="login" className="card blowUp">
 					<Suspense fallback={<div>Loading...</div>}>
 						<div className="container">
 							<div className="title slideUp">
