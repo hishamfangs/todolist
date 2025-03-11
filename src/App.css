@@ -572,7 +572,6 @@ input[type='checkbox']:disabled {
   border-radius: 16px;
   background: var(--light-grey);
   border-left: 5px solid var(--mid-grey);
-  min-height: 100px;
   box-sizing: border-box;
   align-items: center;
   width: 100%;
