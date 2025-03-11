@@ -72,7 +72,10 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 
 	function saveDescriptionHandler(e: React.KeyboardEvent<HTMLTextAreaElement>) {
 		if (e.key === 'Enter') {
+
 			saveDescription(todoList.id, description);
+			e.preventDefault();
+			e.stopPropagation();
 			refDescription.current?.blur();
 		}
 	}
@@ -99,7 +102,7 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 			</div>
 			<div className="todo-list card">
 				<div className="description">
-					<TextareaAutosize placeholder="Add a description here..." value={description} onChange={(e) => { setDescription(e.target.value) }} onKeyUp={(e) => saveDescriptionHandler(e)} onBlur={(e) => saveDescription(todoList.id, description)} ref={refDescription}>{description}</TextareaAutosize>
+					<TextareaAutosize placeholder="Add a description here..." value={description} onChange={(e) => { setDescription(e.target.value) }} onKeyDown={(e) => saveDescriptionHandler(e)} onBlur={(e) => saveDescription(todoList.id, description)} ref={refDescription}>{description}</TextareaAutosize>
 					<div className="lastUpdated">
 						<DateComponent date={todoList?.lastUpdated ? new Date(todoList.lastUpdated) : null} />
 					</div>
