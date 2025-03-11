@@ -25,8 +25,11 @@ export const ToDoListButton = (params: {toDoList: ToDoListType}) => {
 	}
 
 	function onRemove(e: React.MouseEvent<HTMLDivElement>){
-		setRemovedId(params.toDoList.id);
 		e.stopPropagation();
+		if (!window.confirm("Are you sure you want to delete this list?")) {
+			return;
+		}
+		setRemovedId(params.toDoList.id);
 		console.log("ToDoList", e);
 		dispatch(removeList(params.toDoList.id));
 	}

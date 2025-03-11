@@ -28,6 +28,10 @@ export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeIte
 	}, [params.toDoListItem])
 
 	function onRemove(){
+		//e.stopPropagation();
+		if (!window.confirm("Are you sure you want to delete this list?")) {
+			return;
+		}
 		params.removeItem(params.toDoListItem.id)
 	}
 

@@ -153,7 +153,14 @@ a {
   bottom: 0px;
   overflow: hidden;
 }
+.darktheme .breadcrumbs,
+.darktheme .breadcrumbs * {
+  color: grey;
+}
 
+.darktheme .login .pending::after {
+  background: black !important;
+}
 .failed::after {
   content: '';
   position: absolute;
@@ -267,7 +274,12 @@ a {
 .todo-list-button .title .text {
   font-size: 1.4rem;
 }
-
+.darktheme .todo-list-button .title .text {
+  color: var(--primary);
+}
+.darktheme .theme-switcher.dark button:nth-child(2) {
+  color: var(--mid-grey);
+}
 .todo-list-button .title {
   display: flex;
   flex-flow: column;
@@ -678,8 +690,8 @@ input[type='checkbox']:disabled {
 .darktheme .breadcrumb.back {
   filter: invert(0);
   color: black;
+  background: #a5a5a5;
 }
-
 .breadcrumb.back {
   background: white;
   width: 70px;
@@ -702,12 +714,17 @@ input[type='checkbox']:disabled {
   width: 80px;
   background-repeat: no-repeat;
 }
-
+.darktheme .breadcrumb.profile {
+  filter: brightness(36) contrast(0.3);
+}
 .breadcrumb.logout {
   background-image: url('/public/assets/logout.png');
   background-size: contain;
   width: 80px;
   background-repeat: no-repeat;
+}
+.darktheme .breadcrumb.logout {
+  filter: invert(1) brightness(0.65) contrast(1);
 }
 
 .breadcrumb_icons {
@@ -746,6 +763,10 @@ input[type='checkbox']:disabled {
   width: auto;
   height: auto;
   flex: 0 0 auto;
+}
+
+.darktheme .theme-switcher {
+  background: rgb(165 165 165);
 }
 
 .theme-switcher button {
@@ -904,6 +925,7 @@ input[type='checkbox']:disabled {
   .todo-list-button .title .text {
     font-size: 1.2rem;
   }
+
   .plus-sign {
     padding: 0 5px;
   }
