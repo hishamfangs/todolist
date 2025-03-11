@@ -246,7 +246,7 @@ a {
   width: 100%;
   place-content: space-between;
   align-items: center;
-  max-height: 100px;
+  max-height: 200px;
   overflow: hidden;
   animation: 0.2s ease 0s 1 normal none running expand-new-item;
   cursor: pointer;
