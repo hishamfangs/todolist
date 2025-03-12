@@ -79,8 +79,6 @@ export default function Breadcrumbs() {
 				</h1>
 
 				<div className="breadcrumb_icons">
-					<NavLink to="/todolists" className="breadcrumb profile">
-					</NavLink>
 					<div className="breadcrumb logout pointer" onClick={onClick}>
 					</div>
 					<ThemeSwitcher />

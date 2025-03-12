@@ -53,7 +53,12 @@ a {
   color: var(--secondary);
   cursor: pointer;
 }
-
+.loadfont {
+  font-family: 'Inter';
+  color: white;
+  position: absolute;
+  font-size: 1px;
+}
 /*********************** Front Page *************************/
 .App {
   color: var(--secondary);
@@ -114,7 +119,7 @@ a {
   padding: 40px;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 32px;
   gap: 20px;
-  transition: 1s;
+  transition: 0.5s;
   z-index: 1;
   position: relative;
 }
@@ -155,7 +160,7 @@ a {
 }
 .darktheme .breadcrumbs,
 .darktheme .breadcrumbs * {
-  color: grey;
+  color: #a5a5a5;
 }
 
 .darktheme .login .pending::after {
@@ -830,6 +835,10 @@ input[type='checkbox']:disabled {
   background: none;
 }
 
+.darktheme .theme-switcher button:last-child {
+  color: #dfdfdf;
+}
+
 .darktheme .background {
   background-color: rgb(61, 61, 61);
   color: white;
@@ -843,6 +852,13 @@ input[type='checkbox']:disabled {
   }
   .breadcrumb {
     height: 40px;
+  }
+
+  .breadcrumb.back {
+    width: 40px;
+    height: 40px;
+    font-size: 26px;
+    line-height: 19px;
   }
   .breadcrumbs {
     width: 80%;
@@ -970,14 +986,18 @@ input[type='checkbox']:disabled {
   animation: shake 0.4s linear;
   border-color: #da7777a6 !important;
 }
+
 @keyframes blowUp {
   0% {
     width: 0px;
     height: 0px;
+    padding: 0px;
   }
-  100% {
+
+  to {
     width: 400px;
     height: 432px;
+    padding: 60px;
   }
 }
 
@@ -1008,5 +1028,6 @@ input[type='checkbox']:disabled {
   animation-name: blowUp;
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0.42, 0.34, 0.56, 1.22);
+  /* animation-timing-function: cubic-bezier(0.42, 0.34, 0.56, 1.22); */
+  animation-timing-function: cubic-bezier(0.42, 0.65, 0.07, 1.3);
 }

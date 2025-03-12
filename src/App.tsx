@@ -47,7 +47,8 @@ const App = () => {
 			<div className="background"></div>
 			<Provider store={store}>
 				<RouterProvider router={routes}/>
-			</Provider>			
+			</Provider>
+			<span className="loadfont"></span>			
 		</div>
   )
 }
