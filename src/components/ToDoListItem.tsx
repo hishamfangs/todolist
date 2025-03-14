@@ -45,6 +45,14 @@ export const ToDoListItem = (params: { toDoListItem: ToDoListItemType, removeIte
 		<div className={"list-item " + (toDoListItem.completed?'checked':'') + " " + params.removeStatus}>
 			<div className="container">
 				<div className="info-container">
+					<div className="dragicon">
+						<span className="dark"></span>
+						<span className="dark"></span>
+						<span className="dark"></span>
+						<span className="dark"></span>
+						<span className="dark"></span>
+						<span className="dark"></span>
+					</div>
 					<div className="checkbox"><input type="checkbox" 
 						checked={toDoListItem.completed}
 						onChange={e => updateChecked(e)} /></div>

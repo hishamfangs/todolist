@@ -3,6 +3,36 @@ import { deleteList, deleteListItem, fetchList, fetchLists, putList, putListItem
 import type { StoreStatus, ToDoListItemType, ToDoListType } from '../../types'
 import { removeListItemFromArray } from '../../utils/list'
 
+/**
+ * The `toDoSlice` is a Redux slice for managing the state of a to-do list application.
+ * It includes various asynchronous thunks for performing CRUD operations on to-do lists and their items.
+ *
+ * @property {string} name - The name of the slice.
+ * @property {object} initialState - The initial state of the slice.
+ * @property {object} reducers - The reducers and associated actions for the slice.
+ *
+ * @method getLists - Fetches the list of to-do lists, with optional filtering.
+ * @method getList - Fetches a specific to-do list by its ID.
+ * @method addList - Adds a new to-do list.
+ * @method addListItem - Adds a new item to a specific to-do list.
+ * @method updateList - Updates an existing to-do list.
+ * @method updateListItem - Updates an existing item in a to-do list.
+ * @method removeList - Removes a to-do list by its ID.
+ * @method removeListItem - Removes an item from a specific to-do list by its ID.
+ *
+ * @property {object} selectors - The selectors for accessing the state of the slice.
+ * @method selectLists - Selects all to-do lists.
+ * @method selectListsStatus - Selects the status of the getLists operation.
+ * @method selectList - Selects a specific to-do list by its ID.
+ * @method selectListStatus - Selects the status of the getList operation.
+ * @method selectListItemsStatus - Selects the status of the getListItems operation.
+ * @method selectAddListStatus - Selects the status of the addList operation.
+ * @method selectAddListItemStatus - Selects the status of the addListItem operation.
+ * @method selectUpdateListStatus - Selects the status of the updateList operation.
+ * @method selectUpdateListItemStatus - Selects the status of the updateListItem operation.
+ * @method selectDeleteListStatus - Selects the status of the removeList operation.
+ * @method selectDeleteListItemStatus - Selects the status of the removeListItem operation.
+ */
 export interface ToDoSliceState {
   toDoLists: Array<ToDoListType>
   getListsStatus: StoreStatus
@@ -29,7 +59,6 @@ const initialState: ToDoSliceState = {
   removeListItemStatus: 'idle',
 }
 
-// If you are not using async thunks you can use the standalone `createSlice`.
 export const toDoSlice = createAppSlice({
   name: 'todoList',
   // `createSlice` will infer the state type from the `initialState` argument
@@ -101,6 +130,10 @@ export const toDoSlice = createAppSlice({
           }
           if (!found) {
             state.toDoLists.push(action.payload)
+          }
+          // Sort the list items by Order
+          for (let l in state.toDoLists) {
+            sortListItems(state.toDoLists[l])
           }
         },
         rejected: state => {
@@ -174,9 +207,24 @@ export const toDoSlice = createAppSlice({
       },
     ),
     updateListItem: create.asyncThunk(
-      async (listItem: ToDoListItemType) => {
+      async (listItem: ToDoListItemType, { getState }) => {
+        const state = getState() as ToDoSliceState
+        // Update the state first so the UI is updated instantly
+        const index: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(listItem.listId).trim())
+        // Find the index of the list item to be updated
+        const itemsIndex: number | undefined = state.toDoLists[index].listItems?.findIndex(list => String(list.id).trim() === String(listItem.id).trim())
+        // Ensure the listItems array exists before attempting to update
+        if (itemsIndex === undefined || !state.toDoLists[index].listItems) {
+          throw new Error('Item not found')
+        } else {
+          // Update the ListItems with the new values
+          // action.meta.arg is the new listItem argument passed to the action
+          state.toDoLists[index].listItems[itemsIndex] = { ...state.toDoLists[index].listItems[itemsIndex], ...listItem }
+          //sortListItems(state.toDoLists[index]);
+        }
+
+        // Retroactively update the DB
         const response = await postListItem(listItem)
-        // The value we return becomes the `fulfilled` action payload
         return response.data
       },
       {
@@ -188,11 +236,16 @@ export const toDoSlice = createAppSlice({
 
           // Update the state
           const index: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(action.meta.arg.listId).trim())
+          // Find the index of the list item to be updated
           const itemsIndex: number | undefined = state.toDoLists[index].listItems?.findIndex(list => String(list.id).trim() === String(action.meta.arg.id).trim())
+          // Ensure the listItems array exists before attempting to update
           if (itemsIndex === undefined || !state.toDoLists[index].listItems) {
             throw new Error('Item not found')
           } else {
+            // Update the ListItems with the new values
+            // action.meta.arg is the new listItem argument passed to the action
             state.toDoLists[index].listItems[itemsIndex] = { ...state.toDoLists[index].listItems[itemsIndex], ...action.meta.arg }
+            //sortListItems(state.toDoLists[index]);
           }
         },
         rejected: state => {
@@ -264,6 +317,16 @@ export const toDoSlice = createAppSlice({
   },
 })
 
+function sortListItems(list: ToDoListType) {
+  if (list.listItems) {
+    list.listItems.sort((a, b) => {
+      if (a.order && b.order) {
+        return a.order - b.order
+      }
+      return 0
+    })
+  }
+}
 // Action creators are generated for each case reducer function.
 export const { getLists, getList, addList, addListItem, removeListItem, removeList, updateList, updateListItem } = toDoSlice.actions
 

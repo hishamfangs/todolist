@@ -1031,3 +1031,28 @@ input[type='checkbox']:disabled {
   /* animation-timing-function: cubic-bezier(0.42, 0.34, 0.56, 1.22); */
   animation-timing-function: cubic-bezier(0.42, 0.65, 0.07, 1.3);
 }
+
+/****** Drag & Drop **********/
+
+.list-items button {
+  background: none;
+  width: 100%;
+  color: initial;
+  height: auto;
+  border: none;
+  cursor: grab;
+}
+.dragicon {
+  width: 18px;
+  height: 22px;
+  display: flex;
+  gap: 4px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: -12px;
+}
+.dark {
+  background: var(--mid-grey);
+  height: 4px;
+  width: calc(50% - 5px);
+}

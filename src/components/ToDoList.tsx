@@ -1,4 +1,5 @@
-import { KeyboardEventHandler, Suspense, useEffect, useRef, useState } from "react"
+import type React from "react";
+import {  useEffect, useRef, useState } from "react"
 //import { ToDoList } from "./ToDoList"
 import type { ToDoListItemType, ToDoListType } from "../types"
 
@@ -11,9 +12,13 @@ import {
 } from "../store/toDoList/toDoSlice"
 import type { AppDispatch } from "../store/store"
 import { ToDoListItem } from "./ToDoListItem"
-import { useNavigate } from "react-router"
 import TextareaAutosize from 'react-textarea-autosize';
 import { DateComponent } from "./DateComponent"
+import {DndContext} from '@dnd-kit/core';
+import type { DragEndEvent , UniqueIdentifier} from '@dnd-kit/core';
+	
+import {Droppable} from '../dragndrop/Droppable';
+import {Draggable} from '../dragndrop/Draggable';
 
 export const ToDoList = (params: { toDoList: ToDoListType, status: String, addStatus: string, addNewListItem: Function }) => {
 
@@ -22,11 +27,12 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 	const [description, setDescription] = useState('');
 	const removeStatus = useAppSelector(selectDeleteListItemStatus);
 	const [removeItemId, setRemoveItemId] = useState('');
-
+	const [parent, setParent] = useState<UniqueIdentifier | null>(null);
 
 	useEffect(() => {
 		console.log("To Do list:", params.toDoList)
 		setToDoList(params.toDoList);
+		setupSorting();
 	}, [params.toDoList]);
 
 	useEffect(() => {
@@ -94,6 +100,27 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 			listId: todoList.id
 		}))
 	}
+
+	function setupSorting(){
+
+	}
+
+
+	function handleDragEnd(event: DragEndEvent) {
+		const { over } = event;
+
+    // If the item is dropped over a container, set it as the parent
+    // otherwise reset the parent to `null`
+		if (over) {
+			dispatch(updateListItem({
+				id: String(event.active.id),
+				order: todoList.listItems?todoList.listItems.findIndex((item) => item.id === String(over.id)):undefined,
+				listId: todoList.id
+			}))
+			setParent(over ? over.id : null);
+		}
+  }
+
 	return (
 		<>
 			<div className={"add-item card " + params.addStatus + " " + params.status}>
@@ -107,11 +134,21 @@ export const ToDoList = (params: { toDoList: ToDoListType, status: String, addSt
 						<DateComponent date={todoList?.lastUpdated ? new Date(todoList.lastUpdated) : null} />
 					</div>
 				</div>
-				<div className="list-items">
-					{todoList?.listItems?.map((toDoListItem: ToDoListItemType, index: number) => (
-						<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} removeStatus={getStatus(String(toDoListItem.id))} setChecked={setChecked} />
-					))}
-				</div>
+				<DndContext onDragEnd={handleDragEnd}>
+					<div className="list-items">
+						{todoList?.listItems?.map((toDoListItem: ToDoListItemType, index: number) => (
+							<>
+								<Droppable key={'drop-'+index} id={String(index)}>
+									TESTING
+									{index===parent?<span>TEST</span>:''}
+								</Droppable>
+								<Draggable key={index} id={index}>
+									{index!==parent?<ToDoListItem key={toDoListItem.id} toDoListItem={toDoListItem} removeItem={removeItemFromList} removeStatus={getStatus(String(toDoListItem.id))} setChecked={setChecked} />:null}
+								</Draggable>
+							</>
+						))}
+					</div>
+				</DndContext>
 			</div>
 		</>
 	)

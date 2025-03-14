@@ -15,6 +15,7 @@ export interface ToDoListItemType {
 	lastUpdated?: string,
 	listName?: string,
 	listId?: string
+	order?: number
 }
 
 export interface BreadcrumbNavigationStateType {
