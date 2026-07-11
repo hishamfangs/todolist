@@ -1053,6 +1053,6 @@ input[type='checkbox']:disabled {
 }
 .dark {
   background: var(--mid-grey);
-  height: 4px;
+  /* height: 4px; */
   width: calc(50% - 5px);
 }
