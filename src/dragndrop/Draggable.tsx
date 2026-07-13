@@ -5,19 +5,27 @@ export function Draggable(props: { id: any; children: string | number | boolean 
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: props.id,
   });
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.close') || target.closest('input')) {
+      return;
+    }
+    listeners?.onPointerDown?.(e);
+  };
+
   const style = transform ? {
     transform: `translate3d(0, ${transform.y}px, 0)`,
   } : undefined;
 
-  
-  // return (
-  //   <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
-  //     {props.children}
-  //   </button>
-  // );
+  const filteredListeners = {
+    ...listeners,
+    onPointerDown: handlePointerDown,
+  };
+
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div ref={setNodeRef} style={style} {...filteredListeners} {...attributes}>
       {props.children}
-    </button>
+    </div>
   );
 }

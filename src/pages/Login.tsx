@@ -21,8 +21,10 @@ export const Login = (): JSX.Element => {
 
 	// if the localToken is set, navigate to the Todolists page
 	useEffect(() => {
+		console.log('Token changed:', token);
 		setTokenLocal(token);
 		if (token && token !== '""'){
+			console.log('Navigating to todolists with token:', token);
 			navigate('/todolists');
 		}
 	}, [token]);

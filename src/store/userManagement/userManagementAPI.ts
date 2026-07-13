@@ -8,6 +8,7 @@ interface LoginResponse {
 
 // Login
 export async function fetchLogin(username: string, password: string): Promise<LoginResponse> {
+  console.log('fetchLogin called with username:', username)
   const response = await fetch(`${apiURL}/login`, {
     method: 'POST',
     body: JSON.stringify({ username, password }),
@@ -15,7 +16,10 @@ export async function fetchLogin(username: string, password: string): Promise<Lo
       'Content-Type': 'application/json',
     },
   })
-  return handleApiResponse<LoginResponse>(response)
+  console.log('Fetch response status:', response.status)
+  const result = await handleApiResponse<LoginResponse>(response)
+  console.log('handleApiResponse result:', result)
+  return result
 }
 
 // LogOut

@@ -187,9 +187,9 @@ export const toDoSlice = createAppSlice({
     ),
     updateList: create.asyncThunk(
       async (list: ToDoListType) => {
-        const response = await postList(list)
-        // The value we return becomes the `fulfilled` action payload
-        return response.data
+        await postList(list)
+        // Return the list argument (state update uses action.meta.arg)
+        return list
       },
       {
         pending: state => {
@@ -224,8 +224,9 @@ export const toDoSlice = createAppSlice({
         }
 
         // Retroactively update the DB
-        const response = await postListItem(listItem)
-        return response.data
+        await postListItem(listItem)
+        // Return the item argument (state update uses action.meta.arg)
+        return listItem
       },
       {
         pending: state => {
@@ -255,9 +256,9 @@ export const toDoSlice = createAppSlice({
     ),
     removeList: create.asyncThunk(
       async (listId: string) => {
-        const response = await deleteList(listId)
-        // The value we return becomes the `fulfilled` action payload
-        return response.data
+        await deleteList(listId)
+        // Return the listId argument (state update uses action.meta.arg)
+        return listId
       },
       {
         pending: state => {
@@ -275,9 +276,9 @@ export const toDoSlice = createAppSlice({
     ),
     removeListItem: create.asyncThunk(
       async ({ listId, itemId }: { listId: string; itemId: string }) => {
-        const response: boolean = await deleteListItem(listId, itemId)
-        // The value we return becomes the `fulfilled` action payload
-        return response
+        await deleteListItem(listId, itemId)
+        // Return the arguments (state update uses action.meta.arg)
+        return { listId, itemId }
       },
       {
         pending: state => {

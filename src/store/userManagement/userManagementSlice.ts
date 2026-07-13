@@ -34,20 +34,30 @@ export const userManagement = createAppSlice({
     // Login to the To Do Lists App
     login: create.asyncThunk(
       async ({ username, password }: { username: string; password: string }, thunkApi) => {
-        const response = await fetchLogin(username, password)
-        return response.token
+        console.log('Login thunk started for username:', username)
+        try {
+          const response = await fetchLogin(username, password)
+          console.log('Login response:', response)
+          console.log('Extracted token:', response.token)
+          return response.token
+        } catch (error) {
+          console.error('Login error in thunk:', error)
+          throw error
+        }
       },
       {
         pending: state => {
+          console.log('Login pending')
           state.status = 'pending'
         },
         fulfilled: (state, action) => {
+          console.log('Login fulfilled with token:', action.payload)
           state.status = 'fulfilled'
           state.token = action.payload
         },
-        rejected: state => {
+        rejected: (state, action) => {
+          console.log('Login rejected:', action.error)
           state.status = 'failed'
-          console.log('Login failed')
         },
       },
     ),

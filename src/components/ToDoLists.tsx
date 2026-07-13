@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addList, getLists, selectAddListStatus, selectLists, selectListsStatus } from "../store/toDoList/toDoSlice";
 import { setActiveList } from "../store/userManagement/userManagementSlice";
 import { AlertOnStatusFailed } from "./AlertOnStatusFailed";
+import { Spinner } from "./Spinner";
 
 export const ToDoLists = () => {
 	// Get the toDoLists from the parameters
@@ -85,13 +86,17 @@ export const ToDoLists = () => {
 					<div className="add-text"><input placeholder="Type to add a new list..." ref={ref}></input></div>
 				</div>
 			</div>
-			<Suspense fallback={<div>Loading...</div>}>
-				{
-					orderedLists.map((list: ToDoListType) => (
-						<ToDoListButton key={list.id} toDoList={list} />
-					))
-				}
-			</Suspense>
+			{status === 'pending' ? (
+				<Spinner />
+			) : (
+				<Suspense fallback={<div>Loading...</div>}>
+					{
+						orderedLists.map((list: ToDoListType) => (
+							<ToDoListButton key={list.id} toDoList={list} />
+						))
+					}
+				</Suspense>
+			)}
 			<AlertOnStatusFailed status={status} message="Failed to get To Do Lists" />
 		</div>
 	)
