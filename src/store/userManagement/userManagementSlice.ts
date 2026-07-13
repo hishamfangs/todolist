@@ -34,16 +34,8 @@ export const userManagement = createAppSlice({
     // Login to the To Do Lists App
     login: create.asyncThunk(
       async ({ username, password }: { username: string; password: string }, thunkApi) => {
-        let response = ''
-        try {
-          response = await fetchLogin(username, password)
-          return response
-        } catch (e) {
-          throw new Error('Error: ' + response + ': ' + e)
-          // throw thunkApi.rejectWithValue({
-          //   error: 'Error: ' + response + ': ' + e,
-          // })
-        }
+        const response = await fetchLogin(username, password)
+        return response.token
       },
       {
         pending: state => {

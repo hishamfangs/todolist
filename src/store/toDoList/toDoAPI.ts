@@ -1,13 +1,6 @@
 import type { ToDoListType, ToDoListItemType } from '../../types'
 import { apiURL } from '/src/utils/global'
-// Get To Do Lists
-class ToDoError extends Error {
-  code: number
-  constructor(message: string, code: number) {
-    super(message)
-    this.code = code
-  }
-}
+import { handleApiResponse, ApiError } from '../../utils/apiResponse'
 
 function getheaders(): { 'Content-Type': string; authorization: string } {
   return {
@@ -17,48 +10,26 @@ function getheaders(): { 'Content-Type': string; authorization: string } {
 }
 
 export async function fetchLists(filter: string = '') {
-  try {
-    const response = await fetch(`${apiURL}/toDoLists/${filter}`, {
-      method: 'GET',
-      headers: getheaders(),
-    })
-    if (response.status == 500 || response.status == 404 || response.status == 400) {
-      throw new Error('fetchLists(): ' + response.statusText)
-    }
-    if (response.status == 401) {
-      throw new ToDoError('fetchLists(): ' + response.statusText, 401)
-    }
-    return response.json()
-  } catch (e) {
-    console.log('fetchLists(): ' + e)
-    throw new Error('fetchLists(): ' + e)
-  }
+  const response = await fetch(`${apiURL}/toDoLists/${filter}`, {
+    method: 'GET',
+    headers: getheaders(),
+  })
+  return handleApiResponse<ToDoListType[]>(response)
 }
 // Get To Do List
 export async function fetchList(id?: string): Promise<ToDoListType> {
   if (!id) {
     return { id: '', name: '', listItems: [] }
   }
-  try {
-    const response = await fetch(`${apiURL}/toDoLists/${id}`, {
-      method: 'GET',
-      headers: getheaders(),
-    })
-    if (response.status == 500 || response.status == 404 || response.status == 400) {
-      throw new Error('fetchList(): ' + response.statusText)
-    }
-    if (response.status == 401) {
-      throw new ToDoError('fetchList(): ' + response.statusText, 401)
-    }
-    const json: ToDoListType[] = await response.json()
-    if (json.length > 0) {
-      return json[0]
-    }
-    throw new Error('fetchList(): for ' + id + ' not found')
-  } catch (e) {
-    console.log('fetchList(): ' + e)
-    throw new Error('fetchList(): ' + e)
+  const response = await fetch(`${apiURL}/toDoLists/${id}`, {
+    method: 'GET',
+    headers: getheaders(),
+  })
+  const lists = await handleApiResponse<ToDoListType[]>(response)
+  if (lists.length > 0) {
+    return lists[0]
   }
+  throw new Error('fetchList(): for ' + id + ' not found')
 }
 /* export async function fetchListItems(id: string) {
 	const response = await fetch(`${apiURL}toDoListItem/${id}`)
@@ -71,18 +42,7 @@ export async function putList(list: ToDoListType): Promise<ToDoListType> {
     body: JSON.stringify(list),
     headers: getheaders(),
   })
-  if (response.status == 500 || response.status == 404 || response.status == 400) {
-    throw new Error('putList(): ' + response.statusText)
-  }
-  if (response.status == 401) {
-    throw new ToDoError('putList(): ' + response.statusText, 401)
-  }
-  const res = await response.json()
-  if (res.length > 0) {
-    return res[0]
-  }
-  throw new Error('putList(): ' + response.statusText)
-  //return { ...list, id: Math.random().toString(36).substring(7), lastUpdated: new Date().toString() }
+  return handleApiResponse<ToDoListType>(response)
 }
 // Update To Do List
 export async function postList(list: ToDoListType) {
@@ -91,7 +51,7 @@ export async function postList(list: ToDoListType) {
     body: JSON.stringify(list),
     headers: getheaders(),
   })
-  return response.json()
+  return handleApiResponse<null>(response)
 }
 // Delete To Do List
 export async function deleteList(id: string) {
@@ -99,25 +59,24 @@ export async function deleteList(id: string) {
     method: 'DELETE',
     headers: getheaders(),
   })
-  return response.json()
+  return handleApiResponse<null>(response)
 }
-// Delete To Do List
-export async function deleteListItem(id: string, itemId: string): Promise<boolean> {
+// Delete To Do List Item
+export async function deleteListItem(id: string, itemId: string): Promise<null> {
   const response = await fetch(`${apiURL}/toDoLists/${id}/toDoListItems/${itemId}`, {
     method: 'DELETE',
     headers: getheaders(),
   })
-  return response.json()
+  return handleApiResponse<null>(response)
 }
 // Add To Do List Item
 export async function putListItem(listId: string, item: ToDoListItemType): Promise<ToDoListItemType> {
-  //return { ...item, listId: listId, id: Math.random().toString(36).substring(7), lastUpdated: new Date().toString() }
   const response = await fetch(`${apiURL}/toDoLists/${listId}/toDoListItems/`, {
     method: 'PUT',
     body: JSON.stringify(item),
     headers: getheaders(),
   })
-  return await response.json()
+  return handleApiResponse<ToDoListItemType>(response)
 }
 // Update To Do List Item
 export async function postListItem(item: ToDoListItemType) {
@@ -132,5 +91,5 @@ export async function postListItem(item: ToDoListItemType) {
     body: JSON.stringify({ ...item, completed: completed }),
     headers: getheaders(),
   })
-  return response.json()
+  return handleApiResponse<null>(response)
 }
