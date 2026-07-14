@@ -1,11 +1,11 @@
 
 import { useParams } from 'react-router';
-import type { BreadcrumbNavigationStateType, ToDoListType } from '../types';
+import type { ToDoListType } from '../types';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addListItem, getList, selectAddListItemStatus, selectList, selectListStatus } from '../store/toDoList/toDoSlice';
 import { useEffect, useState } from 'react';
 import { ToDoList } from '../components/ToDoList';
-import { selectBreadCrumbNavigationState, setActiveList } from '../store/userManagement/userManagementSlice';
+import { setActiveList } from '../store/userManagement/userManagementSlice';
 import { AlertOnStatusFailed } from '../components/AlertOnStatusFailed';
 
 export default function ToDoListPage() {
