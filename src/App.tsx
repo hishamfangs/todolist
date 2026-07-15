@@ -1,16 +1,20 @@
 
+import { useState } from "react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { Login } from "./pages/Login"
 import ToDoListPage from "./pages/ToDoListPage"
 import LoggedIn from "./pages/LoggedIn"
 import { useLocalStorage } from "@uidotdev/usehooks"
 import { Provider } from "react-redux"
-import { store } from "./store/store"
+import { makeStore } from "./store/store"
 import { ToDoListsPage } from "./pages/ToDoListsPage"
 import { ProtectedRoute } from "./components/ProtectedRoute"
 
 
 const App = () => {
+	// Each mount of App gets its own store instance — no shared module-level
+	// singleton, so two instances of this app on one page stay independent.
+	const [store] = useState(() => makeStore());
 	// Initialize the theme from local storage
 	const [theme] = useLocalStorage("theme","light");
 	//const dispatch = useAppDispatch();

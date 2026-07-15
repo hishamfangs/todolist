@@ -207,47 +207,30 @@ export const toDoSlice = createAppSlice({
       },
     ),
     updateListItem: create.asyncThunk(
-      async (listItem: ToDoListItemType, { getState }) => {
-        const state = getState() as ToDoSliceState
-        // Update the state first so the UI is updated instantly
-        const index: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(listItem.listId).trim())
-        // Find the index of the list item to be updated
-        const itemsIndex: number | undefined = state.toDoLists[index].listItems?.findIndex(list => String(list.id).trim() === String(listItem.id).trim())
-        // Ensure the listItems array exists before attempting to update
-        if (itemsIndex === undefined || !state.toDoLists[index].listItems) {
-          throw new Error('Item not found')
-        } else {
-          // Update the ListItems with the new values
-          // action.meta.arg is the new listItem argument passed to the action
-          state.toDoLists[index].listItems[itemsIndex] = { ...state.toDoLists[index].listItems[itemsIndex], ...listItem }
-          //sortListItems(state.toDoLists[index]);
-        }
-
-        // Retroactively update the DB
+      async (listItem: ToDoListItemType) => {
+        // Update the DB. The optimistic state update happens in `pending` below,
+        // inside Immer's draft — never mutate state from within a payload creator.
         await postListItem(listItem)
-        // Return the item argument (state update uses action.meta.arg)
         return listItem
       },
       {
-        pending: state => {
+        pending: (state, action) => {
           state.updateListItemStatus = 'pending'
-        },
-        fulfilled: (state, action) => {
-          state.updateListItemStatus = 'fulfilled'
 
-          // Update the state
-          const index: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(action.meta.arg.listId).trim())
-          // Find the index of the list item to be updated
-          const itemsIndex: number | undefined = state.toDoLists[index].listItems?.findIndex(list => String(list.id).trim() === String(action.meta.arg.id).trim())
-          // Ensure the listItems array exists before attempting to update
-          if (itemsIndex === undefined || !state.toDoLists[index].listItems) {
-            throw new Error('Item not found')
-          } else {
-            // Update the ListItems with the new values
-            // action.meta.arg is the new listItem argument passed to the action
-            state.toDoLists[index].listItems[itemsIndex] = { ...state.toDoLists[index].listItems[itemsIndex], ...action.meta.arg }
-            //sortListItems(state.toDoLists[index]);
-          }
+          // Apply the update optimistically so the UI (checkbox toggle, drag
+          // reorder) reflects it instantly instead of waiting on the network.
+          const listItem = action.meta.arg
+          const index: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(listItem.listId).trim())
+          if (index === -1) return
+          const itemsIndex: number | undefined = state.toDoLists[index].listItems?.findIndex(item => String(item.id).trim() === String(listItem.id).trim())
+          if (itemsIndex === undefined || itemsIndex === -1 || !state.toDoLists[index].listItems) return
+
+          state.toDoLists[index].listItems[itemsIndex] = { ...state.toDoLists[index].listItems[itemsIndex], ...listItem }
+          // Re-sort by `order` so a drag reorder's array position matches the new value
+          sortListItems(state.toDoLists[index])
+        },
+        fulfilled: state => {
+          state.updateListItemStatus = 'fulfilled'
         },
         rejected: state => {
           state.updateListItemStatus = 'failed'

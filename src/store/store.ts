@@ -29,10 +29,9 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
   return store
 }
 
-export const store = makeStore()
-
-// Infer the type of `store`
-export type AppStore = typeof store
+// Infer the type of a store instance from the factory, rather than from a
+// single shared instance — each caller of `makeStore` gets its own store.
+export type AppStore = ReturnType<typeof makeStore>
 // Infer the `AppDispatch` type from the store itself
 export type AppDispatch = AppStore['dispatch']
 export type AppThunk<ThunkReturnType = void> = ThunkAction<ThunkReturnType, RootState, unknown, Action>

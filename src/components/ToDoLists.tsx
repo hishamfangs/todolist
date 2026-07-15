@@ -1,40 +1,24 @@
-import { Suspense, useEffect, useRef, useState } from "react"
-//import { ToDoList } from "./ToDoList"
-import type { ToDoListType } from "../types"
+import { Suspense, useEffect, useMemo, useRef } from "react"
+import type { ToDoListType, StoreStatus } from "../types"
 import { ToDoListButton } from "./ToDoListButton";
-import type { AppDispatch } from "../store/store";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addList, getLists, selectAddListStatus, selectLists, selectListsStatus } from "../store/toDoList/toDoSlice";
-import { setActiveList } from "../store/userManagement/userManagementSlice";
 import { AlertOnStatusFailed } from "./AlertOnStatusFailed";
 import { Spinner } from "./Spinner";
 
-export const ToDoLists = () => {
-	// Get the toDoLists from the parameters
-	const dispatch: AppDispatch = useAppDispatch()
-	const toDoLists: ToDoListType[] = useAppSelector(selectLists)
-	const status = useAppSelector(selectListsStatus);
-	const addStatus = useAppSelector(selectAddListStatus);
-	const [orderedLists, setOrderedLists] = useState(toDoLists);
-	const [removeItemId, setRemoveItemId] = useState('');
+type ToDoListsProps = {
+	toDoLists: ToDoListType[]
+	status: StoreStatus
+	addStatus: StoreStatus
+	removeStatus: StoreStatus
+	onAddList: (name: string) => void
+	onRemoveList: (listId: string) => void
+}
 
-	useEffect(() => {
-		console.log('called')
-		dispatch(setActiveList(''));
-		dispatch(getLists());
-	}, []);
-
-
-	console.log(toDoLists);
-
-
-	// Reorder list by Last Updated
-	useEffect(() => {
-		const todoNew = toDoLists.toSorted((a: ToDoListType, b: ToDoListType) => {
+export const ToDoLists = ({ toDoLists, status, addStatus, removeStatus, onAddList, onRemoveList }: ToDoListsProps) => {
+	// Order by Last Updated — a pure derivation of props, not a store read
+	const orderedLists = useMemo(() => {
+		return [...toDoLists].toSorted((a: ToDoListType, b: ToDoListType) => {
 			return new Date(String(b.lastUpdated)).getTime() - new Date(String(a.lastUpdated)).getTime();
 		});
-		console.log(todoNew);
-		setOrderedLists(todoNew);
 	}, [toDoLists]);
 
 	// Add a new
@@ -57,7 +41,7 @@ export const ToDoLists = () => {
 		};
 	}, []);
 
-	// Delete the entry if the item is added successfully
+	// Clear the input once the add request succeeds
 	useEffect(() => {
 		if (addStatus === "fulfilled") {
 			ref.current!.value = "";
@@ -66,16 +50,11 @@ export const ToDoLists = () => {
 
 	// Add New List Function to add a new list from the input element
 	function addNewList() {
-		console.log("Adding a new list");
 		if (!ref.current?.value) {
 			return;
 		}
-		console.log("Adding a new list");
-		dispatch(addList({
-			name: ref.current?.value,
-			id: "",
-			listItems: []
-		}));
+		onAddList(ref.current.value);
+		ref.current!.value = "";
 	}
 
 	return (
@@ -92,7 +71,7 @@ export const ToDoLists = () => {
 				<Suspense fallback={<div>Loading...</div>}>
 					{
 						orderedLists.map((list: ToDoListType) => (
-							<ToDoListButton key={list.id} toDoList={list} />
+							<ToDoListButton key={list.id} toDoList={list} removeStatus={removeStatus} onRemove={onRemoveList} />
 						))
 					}
 				</Suspense>

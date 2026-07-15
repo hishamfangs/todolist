@@ -12,38 +12,25 @@ export default function Breadcrumbs() {
 	const dispatch = useAppDispatch();
 	const activeListId: string | undefined = useAppSelector(selectActiveListId);
 	const listName = useAppSelector((state) => activeListId ? selectList(state, activeListId)?.name : '');
-	const [token, setToken] = useLocalStorage('token', '')
+	const [, setToken] = useLocalStorage('token', '')
 	const refName = useRef<HTMLTextAreaElement>(null);
 	const [toDoListName, setToDolistName] = useState(listName);
-	
+
 	function onClick(){
 		dispatch(logout());
-		localStorage.removeItem('token');
+		// Go through the hook's own setter (not a raw localStorage write) so every
+		// `useLocalStorage('token', ...)` instance — including the one App.tsx
+		// uses for ProtectedRoute — is notified the token changed.
+		setToken('');
 		navigate('/');
-		/* setTimeout(() => {
-			navigate('/');
-		}, 1000); */
-		//navigate('/');
 	}
 	useEffect(() => {
 		if (activeListId) {
 			setToDolistName(listName);
 		}
 	}, [listName]);
-	
-	function handleKeyPress(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-/* 		console.log(event)
-		if (event.code === 'Enter') {
-			event.preventDefault();
-			event.stopPropagation();
-			//debugger;
-			refName.current?.blur();
-			updateName();
-		} */
-	}
-		
+
 	function handleKeyDownPress(event: React.KeyboardEvent<HTMLTextAreaElement>) {
-		console.log(event)
 		if (event.code === 'Enter') {
 			event.preventDefault();
 			event.stopPropagation();

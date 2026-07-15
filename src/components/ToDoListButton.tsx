@@ -1,49 +1,41 @@
-import { Suspense, useState } from "react"
-//import { ToDoList } from "./ToDoList"
+import { useState } from "react"
 import { useNavigate } from "react-router"
 import { DateComponent } from "./DateComponent"
-import type { ToDoListType } from "../types";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { removeList, removeListItem, selectDeleteListStatus, selectLists } from "../store/toDoList/toDoSlice";
-import type { AppDispatch } from "../store/store";
+import type { ToDoListType, StoreStatus } from "../types";
 
-export const ToDoListButton = (params: {toDoList: ToDoListType}) => {
-	const dispatch: AppDispatch = useAppDispatch()
-  const removeStatus = useAppSelector(selectDeleteListStatus);
-	const [removedId, setRemovedId]	= useState('');
+type ToDoListButtonProps = {
+	toDoList: ToDoListType
+	removeStatus: StoreStatus
+	onRemove: (listId: string) => void
+}
 
-	//ispatch(getLists());
-  //const [toDoLists, setToDoLists] = useState();.
+export const ToDoListButton = ({ toDoList, removeStatus, onRemove }: ToDoListButtonProps) => {
+	const [removedId, setRemovedId] = useState('');
 	const navigate = useNavigate();
-	//const [toDoList] = useState(params.toDoList);
 
-
-
-	function onClick(e: React.MouseEvent<HTMLDivElement>){
-		console.log("ToDoList", e);
-		navigate(`/todolists/todolist/${params.toDoList.id}`);
+	function onClick(){
+		navigate(`/todolists/todolist/${toDoList.id}`);
 	}
 
-	function onRemove(e: React.MouseEvent<HTMLDivElement>){
+	function onRemoveClick(e: React.MouseEvent<HTMLDivElement>){
 		e.stopPropagation();
 		if (!window.confirm("Are you sure you want to delete this list?")) {
 			return;
 		}
-		setRemovedId(params.toDoList.id);
-		console.log("ToDoList", e);
-		dispatch(removeList(params.toDoList.id));
+		setRemovedId(toDoList.id);
+		onRemove(toDoList.id);
 	}
 
   return (
 		<div className={"todo-list-button listButton "} onClick={onClick}>
-			<div className={"container " + (removedId==params.toDoList.id && removeStatus?removeStatus:'')} >
+			<div className={"container " + (removedId===toDoList.id && removeStatus?removeStatus:'')} >
 				<div className="title">
-					<div className="text">{params.toDoList.name}</div>
-					<div className="description">{params.toDoList.description}</div>
+					<div className="text">{toDoList.name}</div>
+					<div className="description">{toDoList.description}</div>
 				</div>
 				<div className="todolistbutton-rightside">
-					<DateComponent date={new Date(params.toDoList.lastUpdated ?? '01/01/1970')} />
-					<div className="close" onClick={onRemove}>
+					<DateComponent date={new Date(toDoList.lastUpdated ?? '01/01/1970')} />
+					<div className="close" onClick={onRemoveClick}>
 						<span>X</span>
 					</div>
 				</div>
