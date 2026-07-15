@@ -2,6 +2,7 @@ import { createAppSlice } from '../../app/createAppSlice'
 import { deleteList, deleteListItem, fetchList, fetchLists, putList, putListItem, postList, postListItem } from './toDoAPI'
 import type { StoreStatus, ToDoListItemType, ToDoListType } from '../../types'
 import { removeListItemFromArray } from '../../utils/list'
+import { sortListItems } from '../../utils/list'
 
 /**
  * The `toDoSlice` is a Redux slice for managing the state of a to-do list application.
@@ -123,17 +124,13 @@ export const toDoSlice = createAppSlice({
           for (let l in state.toDoLists) {
             const list = state.toDoLists[l]
             if (String(list.id) === String(action.meta.arg)) {
-              state.toDoLists[l] = { ...action.payload, id: String(action.payload.id) }
+              state.toDoLists[l] = sortListItems({ ...action.payload, id: String(action.payload.id) })
               found = true
               break
             }
           }
           if (!found) {
-            state.toDoLists.push(action.payload)
-          }
-          // Sort the list items by Order
-          for (let l in state.toDoLists) {
-            sortListItems(state.toDoLists[l])
+            state.toDoLists.push(sortListItems(action.payload))
           }
         },
         rejected: state => {
@@ -176,6 +173,9 @@ export const toDoSlice = createAppSlice({
           if (state.toDoLists.length > 0) {
             const found: number = state.toDoLists.findIndex(list => String(list.id).trim() === String(action.meta.arg.listId).trim())
             state.toDoLists[found]?.listItems?.push(action.payload)
+            if (state.toDoLists[found]) {
+              sortListItems(state.toDoLists[found])
+            }
             //selectList({ todoList: state }, action.payload.listId).push(action.payload)
           }
           //state.value = action.payload
@@ -301,16 +301,6 @@ export const toDoSlice = createAppSlice({
   },
 })
 
-function sortListItems(list: ToDoListType) {
-  if (list.listItems) {
-    list.listItems.sort((a, b) => {
-      if (a.order && b.order) {
-        return a.order - b.order
-      }
-      return 0
-    })
-  }
-}
 // Action creators are generated for each case reducer function.
 export const { getLists, getList, addList, addListItem, removeListItem, removeList, updateList, updateListItem } = toDoSlice.actions
 

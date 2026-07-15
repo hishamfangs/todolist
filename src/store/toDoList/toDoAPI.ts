@@ -1,6 +1,7 @@
 import type { ToDoListType, ToDoListItemType } from '../../types'
 import { apiURL } from '/src/utils/global'
 import { handleApiResponse, ApiError } from '../../utils/apiResponse'
+import { sortListItems } from '../../utils/list'
 
 function getheaders(): { 'Content-Type': string; authorization: string } {
   return {
@@ -14,7 +15,8 @@ export async function fetchLists(filter: string = '') {
     method: 'GET',
     headers: getheaders(),
   })
-  return handleApiResponse<ToDoListType[]>(response)
+  const lists = await handleApiResponse<ToDoListType[]>(response)
+  return lists.map(list => sortListItems(list))
 }
 // Get To Do List
 export async function fetchList(id?: string): Promise<ToDoListType> {
@@ -27,7 +29,7 @@ export async function fetchList(id?: string): Promise<ToDoListType> {
   })
   const lists = await handleApiResponse<ToDoListType[]>(response)
   if (lists.length > 0) {
-    return lists[0]
+    return sortListItems(lists[0])
   }
   throw new Error('fetchList(): for ' + id + ' not found')
 }

@@ -14,3 +14,14 @@ export function removeListItemFromArray(toDoLists: ToDoListType[], listId: strin
   toDoLists[indexOfList].listItems?.splice(indexOfItem, 1)
   return toDoLists
 }
+
+export function sortListItems(list: ToDoListType): ToDoListType {
+  if (list.listItems) {
+    list.listItems.sort((a, b) => {
+      const aOrder = a.order ?? Number.MAX_SAFE_INTEGER
+      const bOrder = b.order ?? Number.MAX_SAFE_INTEGER
+      return aOrder - bOrder
+    })
+  }
+  return list
+}

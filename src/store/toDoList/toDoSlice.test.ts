@@ -65,6 +65,26 @@ describe<LocalTestContext>('To Do List Reducer', it => {
       }),
     )
     //await store.dispatch(getLists())
-    expect(selectLists(store.getState())[0]).toHaveProperty('name')
+    expect(selectLists(store.getState().todoList)[0]).toHaveProperty('name')
+  })
+
+  it('should keep list items ordered by order', ({ store }) => {
+    store.dispatch(
+      getList.fulfilled(
+        {
+          id: '10',
+          name: 'List with items',
+          listItems: [
+            { id: '2', name: 'Second', order: 2 },
+            { id: '1', name: 'First', order: 1 },
+            { id: '3', name: 'Unordered' },
+          ],
+        },
+        '',
+        '10',
+      ),
+    )
+
+    expect(selectList(store.getState().todoList, '10')?.listItems?.map(item => item.id)).toStrictEqual(['1', '2', '3'])
   })
 })
